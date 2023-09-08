@@ -1,0 +1,21 @@
+{
+  "name": "prism-cedar",
+  "version": "0.2.0",
+  "description": "Prism support for Cedar policy syntax",
+  "author": "cedar-policy",
+  "license": "Apache-2.0",
+  "repository": {
+    "url": "https://github.com/cedar-policy/prism-cedar"
+  },
+  "scripts": {
+    "build": "esbuild src/prism-cedar.js --outfile=dist/prism-cedar.min.js  --minify"
+  },
+  "keywords": [
+    "prism",
+    "highlight",
+    "cedar"
+  ],
+  "devDependencies": {
+    "esbuild": "^0.19.2"
+  }
+}

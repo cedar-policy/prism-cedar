@@ -1,11 +1,17 @@
-## My Project
+# Prism support for Cedar policy language
 
-TODO: Fill this README out!
+[Prism](https://prismjs.com/index.html) (a lightweight, extensible syntax highlighter) support for Cedar policy language based on [Grammar specification for Cedar policy syntax](https://docs.cedarpolicy.com/syntax-grammar.html).
 
-Be sure to:
+See it in action by cloning this repository and viewing `test\index.html` in your browser.  The `test` folder includes a downloaded copy of PrismJS 1.29.0 and loads `dist/prism-cedar.min.js`.
 
-* Change the title in this README
-* Edit your repository description on GitHub
+## Building
+
+`dist/prism-cedar.min.js` is built using [esbuild](https://esbuild.github.io/) using the `--minify` option.
+
+```bash
+npm run install
+npm run build
+```
 
 ## Security
 
@@ -14,4 +20,3 @@ See [CONTRIBUTING](CONTRIBUTING.md#security-issue-notifications) for more inform
 ## License
 
 This project is licensed under the Apache-2.0 License.
-
