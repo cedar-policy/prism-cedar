@@ -1,0 +1,10 @@
+<span class="token comment">// decimal(), lessThan, lessThanOrEqual, greaterThan, greaterThanOrEqual</span>
+<span class="token comment">// see https://docs.cedarpolicy.com/policies/syntax-operators.html#decimal-parse-string-and-convert-to-decimal</span>
+<span class="token keyword">permit</span> (<span class="token variable">principal</span>, <span class="token variable">action</span>, <span class="token variable">resource</span>)
+<span class="token keyword">when</span>
+{
+  (<span class="token builtin">decimal</span>(<span class="token string">"1.23"</span>).<span class="token function">lessThan</span>(<span class="token builtin">decimal</span>(<span class="token string">"1.24"</span>)) <span class="token operator">&amp;&amp;</span>
+   <span class="token builtin">decimal</span>(<span class="token string">"1.23"</span>).<span class="token function">lessThanOrEqual</span>(<span class="token builtin">decimal</span>(<span class="token string">"1.24"</span>))) <span class="token operator">||</span>
+  (<span class="token builtin">decimal</span>(<span class="token string">"1.24"</span>).<span class="token function">greaterThan</span>(<span class="token builtin">decimal</span>(<span class="token string">"1.23"</span>)) <span class="token operator">&amp;&amp;</span>
+   <span class="token builtin">decimal</span>(<span class="token string">"1.24"</span>).<span class="token function">greaterThanOrEqual</span>(<span class="token builtin">decimal</span>(<span class="token string">"1.23"</span>)))
+};

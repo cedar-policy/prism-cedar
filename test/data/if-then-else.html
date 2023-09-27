@@ -1,0 +1,15 @@
+<span class="token keyword">permit</span> (
+  <span class="token variable">principal</span>,
+  <span class="token variable">action</span> <span class="token operator">==</span> NameSpace::Action::<span class="token string">"readObjects"</span>,
+  <span class="token variable">resource</span> <span class="token operator">in</span> NameSpace::Container::<span class="token string">"container"</span>
+)
+<span class="token keyword">when</span> { <span class="token variable">resource</span>.tenant <span class="token operator">==</span> <span class="token variable">principal</span>.custom.tenant_id }
+<span class="token keyword">when</span>
+{
+  <span class="token operator">if</span>
+    <span class="token variable">resource</span> <span class="token operator">has</span> owner
+  <span class="token operator">then</span>
+    <span class="token variable">resource</span>.owner <span class="token operator">==</span> <span class="token variable">principal</span>.custom.user_id
+  <span class="token operator">else</span>
+    <span class="token boolean">true</span>
+};

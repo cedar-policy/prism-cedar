@@ -1,0 +1,17 @@
+<span class="token comment">// see https://docs.cedarpolicy.com/policies/syntax-policy.html</span>
+@id(<span class="token string">"F1"</span>)
+<span class="token keyword">forbid</span> (<span class="token variable">principal</span>, <span class="token variable">action</span>, <span class="token variable">resource</span>)
+<span class="token keyword">when</span> { <span class="token variable">resource</span>.private }
+<span class="token keyword">unless</span> { <span class="token variable">principal</span> <span class="token operator">==</span> <span class="token variable">resource</span>.owner };
+
+<span class="token comment">// see https://docs.cedarpolicy.com/policies/syntax-operators.html</span>
+@id(<span class="token string">"F2"</span>)
+<span class="token keyword">forbid</span> (<span class="token variable">principal</span>, <span class="token variable">action</span>, <span class="token variable">resource</span>)
+<span class="token keyword">when</span>
+{
+  (<span class="token boolean">true</span> <span class="token operator">==</span> <span class="token boolean">false</span> <span class="token operator">||</span> <span class="token boolean">true</span> <span class="token operator">==</span> !<span class="token boolean">true</span> <span class="token operator">||</span> <span class="token boolean">true</span> <span class="token operator">!=</span> <span class="token boolean">true</span>) <span class="token operator">&amp;&amp;</span>
+  (<span class="token number">1</span> <span class="token operator">></span> <span class="token number">2</span> <span class="token operator">||</span> <span class="token number">1</span> <span class="token operator">>=</span> <span class="token number">2</span>) <span class="token operator">&amp;&amp;</span>
+  (<span class="token number">2</span> <span class="token operator">&lt;</span> <span class="token number">1</span> <span class="token operator">||</span> <span class="token number">2</span> <span class="token operator">&lt;=</span> <span class="token number">1</span>) <span class="token operator">&amp;&amp;</span>
+  (<span class="token number">1</span> <span class="token operator">==</span> <span class="token number">-1</span>) <span class="token operator">&amp;&amp;</span>
+  <span class="token string">"true"</span> <span class="token operator">like</span> <span class="token string">"false"</span>
+};
