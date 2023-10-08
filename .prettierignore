@@ -1,0 +1,8 @@
+node_modules
+# Ignore artifacts:
+dist
+*.min.*
+test/data/*
+test/static/prism.*
+*.md
+.github

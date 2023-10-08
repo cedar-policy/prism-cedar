@@ -1,0 +1,9 @@
+<span class="token comment">// contains, containsAll, containsAny</span>
+<span class="token comment">// see https://docs.cedarpolicy.com/policies/syntax-operators.html</span>
+<span class="token keyword">permit</span> (<span class="token variable">principal</span>, <span class="token variable">action</span>, <span class="token variable">resource</span>)
+<span class="token keyword">when</span>
+{
+  [<span class="token number">1</span>, <span class="token number">-22</span>, <span class="token number">34</span>].<span class="token function">contains</span>(<span class="token number">1</span>) <span class="token operator">&amp;&amp;</span>
+  [<span class="token number">1</span>, <span class="token number">-22</span>, <span class="token number">34</span>].<span class="token function">containsAll</span>([<span class="token number">-22</span>, <span class="token number">1</span>]) <span class="token operator">&amp;&amp;</span>
+  [<span class="token number">1</span>, <span class="token number">-22</span>].<span class="token function">containsAny</span>([<span class="token number">1</span>, <span class="token number">-22</span>, <span class="token number">34</span>])
+};

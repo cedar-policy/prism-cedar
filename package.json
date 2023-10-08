@@ -1,6 +1,6 @@
 {
   "name": "prism-cedar",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "description": "Prism support for Cedar policy syntax",
   "author": "cedar-policy",
   "license": "Apache-2.0",
@@ -8,7 +8,10 @@
     "url": "https://github.com/cedar-policy/prism-cedar"
   },
   "scripts": {
-    "build": "esbuild src/prism-cedar.js --outfile=dist/prism-cedar.min.js  --minify"
+    "build": "esbuild src/prism-cedar.js --outfile=dist/prism-cedar.min.js  --minify",
+    "test": "npm run prettier && vitest",
+    "prettier": "prettier --check .",
+    "testdata": "cd test && node update-html-files.js"
   },
   "keywords": [
     "prism",
@@ -16,6 +19,8 @@
     "cedar"
   ],
   "devDependencies": {
-    "esbuild": "^0.19.2"
+    "esbuild": "^0.19.2",
+    "prettier": "^3.0.3",
+    "vitest": "^0.34.4"
   }
 }

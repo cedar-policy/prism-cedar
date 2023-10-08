@@ -1,0 +1,117 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <title>prism-cedar</title>
+    <link href="prism.css" rel="stylesheet" />
+  </head>
+  <body>
+    <!-- 
+      PrismJS 1.29.0
+      https://prismjs.com/download.html#themes=prism&languages=markup+css+clike+javascript
+    -->
+    <script src="prism.js"></script>
+    <script src="../../dist/prism-cedar.min.js"></script>
+
+    <h1>static script src test page for prism-cedar</h1>
+
+    <!-- prettier-ignore-start -->
+    <!-- BEGIN generated code -->
+
+    <h2>contains.cedar</h2>
+    <pre><code class="language-cedar">
+// contains, containsAll, containsAny
+// see https://docs.cedarpolicy.com/policies/syntax-operators.html
+permit (principal, action, resource)
+when
+{
+  [1, -22, 34].contains(1) &&
+  [1, -22, 34].containsAll([-22, 1]) &&
+  [1, -22].containsAny([1, -22, 34])
+};
+</code></pre>
+
+    <h2>decimal.cedar</h2>
+    <pre><code class="language-cedar">
+// decimal(), lessThan, lessThanOrEqual, greaterThan, greaterThanOrEqual
+// see https://docs.cedarpolicy.com/policies/syntax-operators.html#decimal-parse-string-and-convert-to-decimal
+permit (principal, action, resource)
+when
+{
+  (decimal("1.23").lessThan(decimal("1.24")) &&
+   decimal("1.23").lessThanOrEqual(decimal("1.24"))) ||
+  (decimal("1.24").greaterThan(decimal("1.23")) &&
+   decimal("1.24").greaterThanOrEqual(decimal("1.23")))
+};
+</code></pre>
+
+    <h2>forbid.cedar</h2>
+    <pre><code class="language-cedar">
+// see https://docs.cedarpolicy.com/policies/syntax-policy.html
+@id("F1")
+forbid (principal, action, resource)
+when { resource.private }
+unless { principal == resource.owner };
+
+// see https://docs.cedarpolicy.com/policies/syntax-operators.html
+@id("F2")
+forbid (principal, action, resource)
+when
+{
+  (true == false || true == !true || true != true) &&
+  (1 > 2 || 1 >= 2) &&
+  (2 &lt; 1 || 2 &lt;= 1) &&
+  (1 == -1) &&
+  "true" like "false"
+};
+</code></pre>
+
+    <h2>if-then-else.cedar</h2>
+    <pre><code class="language-cedar">
+permit (
+  principal,
+  action == NameSpace::Action::"readObjects",
+  resource in NameSpace::Container::"container"
+)
+when { resource.tenant == principal.custom.tenant_id }
+when
+{
+  if
+    resource has owner
+  then
+    resource.owner == principal.custom.user_id
+  else
+    true
+};
+</code></pre>
+
+    <h2>ip.cedar</h2>
+    <pre><code class="language-cedar">
+// ip(), isIpv4, isIpv6, isLoopback, isMulticast, isInRange
+// see https://docs.cedarpolicy.com/policies/syntax-operators.html#ip-address-functions
+permit (principal, action, resource)
+when
+{
+  ip("127.0.0.1").isIpv4() &&
+  ip("127.0.0.2").isLoopback() &&
+  ip("::1").isIpv6() &&
+  ip("ff00::2").isMulticast() &&
+  ip("192.168.0.1").isInRange(ip("192.168.0.1/24"))
+};
+</code></pre>
+
+    <h2>template.cedar</h2>
+    <pre><code class="language-cedar">
+// see https://docs.cedarpolicy.com/policies/templates.html
+permit (
+  principal in ?principal,
+  action in [Action::"comment"], 
+  resource in ?resource
+)
+unless {
+  context.readOnly == true
+};
+</code></pre>
+    <!-- END generated code -->
+    <!-- prettier-ignore-end -->
+  </body>
+</html>
