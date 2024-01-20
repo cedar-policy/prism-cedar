@@ -27,7 +27,17 @@ Prism.languages['cedar'] = {
     },
     {
       // don't worry about excluding . before operator reserved identifiers
-      pattern: /\b(?:in|like|has|if|then|else)\b/,
+      pattern: /\b(?:in|like|has|if|then|else|is)\b/,
+    },
+  ],
+  'class-name': [
+    {
+      pattern: /\b(?:([_a-zA-Z][_a-zA-Z0-9]*::)*[_a-zA-Z][_a-zA-Z0-9]*)(?=::)/, // (?=::")
+    },
+    {
+      pattern: /(\s+is\s+)([_a-zA-Z][_a-zA-Z0-9]*::)*[_a-zA-Z][_a-zA-Z0-9]*/,
+      greedy: true, // since "is" is defined above as operator
+      lookbehind: true,
     },
   ],
   builtin: /\b(?:ip|decimal)(?=\()/,

@@ -110,6 +110,21 @@ when
 };
 </code></pre>
 
+    <h2>is.cedar</h2>
+    <pre><code class="language-cedar">
+// https://docs.cedarpolicy.com/policies/syntax-operators.html#operator-is
+permit (
+  principal is User in Group::"friends",
+  action,
+  resource in Group::"friends"
+)
+unless
+{
+  // false - `ExampleCo::User` and `User` are different entity types
+  ExampleCo::User::"alice" is User
+};
+</code></pre>
+
     <h2>quotes.cedar</h2>
     <pre><code class="language-cedar">
 // you "must" be 54" tall to ride (wink)

@@ -1,0 +1,11 @@
+<span class="token comment">// https://docs.cedarpolicy.com/policies/syntax-operators.html#operator-is</span>
+<span class="token keyword">permit</span> (
+  <span class="token variable">principal</span> <span class="token operator">is</span> <span class="token class-name">User</span> <span class="token operator">in</span> <span class="token class-name">Group</span>::<span class="token string">"friends"</span>,
+  <span class="token variable">action</span>,
+  <span class="token variable">resource</span> <span class="token operator">in</span> <span class="token class-name">Group</span>::<span class="token string">"friends"</span>
+)
+<span class="token keyword">unless</span>
+{
+  <span class="token comment">// false - `ExampleCo::User` and `User` are different entity types</span>
+  <span class="token class-name">ExampleCo::User</span>::<span class="token string">"alice"</span> <span class="token operator">is</span> <span class="token class-name">User</span>
+};
