@@ -19,7 +19,8 @@ Prism.languages['cedar'] = {
   keyword: /\b(?<!\.)(?:permit|forbid|when|unless)\b/,
   // don't worry about excluding . before boolean reserved identifiers
   boolean: /\b(?:false|true)\b/,
-  variable: /\b(?<!\.)(?:principal|action|resource|context)\b/,
+  symbol: /\?(?:principal|resource)\b/,
+  variable: /\b(?<![\.\?])(?:principal|action|resource|context)\b/,
   number: /\b0|\-?[1-9](_?[0-9])*/,
   operator: [
     {

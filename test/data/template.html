@@ -1,8 +1,8 @@
 <span class="token comment">// see https://docs.cedarpolicy.com/policies/templates.html</span>
 <span class="token keyword">permit</span> (
-  <span class="token variable">principal</span> <span class="token operator">in</span> ?<span class="token variable">principal</span>,
+  <span class="token variable">principal</span> <span class="token operator">in</span> <span class="token symbol">?principal</span>,
   <span class="token variable">action</span> <span class="token operator">in</span> [<span class="token class-name">Action</span>::<span class="token string">"comment"</span>], 
-  <span class="token variable">resource</span> <span class="token operator">in</span> ?<span class="token variable">resource</span>
+  <span class="token variable">resource</span> <span class="token operator">in</span> <span class="token symbol">?resource</span>
 )
 <span class="token keyword">unless</span> {
   <span class="token variable">context</span>.readOnly <span class="token operator">==</span> <span class="token boolean">true</span>
