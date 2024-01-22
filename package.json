@@ -1,6 +1,6 @@
 {
   "name": "prism-cedar",
-  "version": "0.2.1",
+  "version": "0.3.0",
   "description": "Prism support for Cedar policy syntax",
   "author": "cedar-policy",
   "license": "Apache-2.0",
@@ -19,8 +19,8 @@
     "cedar"
   ],
   "devDependencies": {
-    "esbuild": "^0.19.8",
-    "prettier": "^3.1.0",
-    "vitest": "^1.0.1"
+    "esbuild": "^0.19.11",
+    "prettier": "^3.2.4",
+    "vitest": "^1.2.1"
   }
 }

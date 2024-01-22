@@ -65,6 +65,17 @@ when
 };
 </code></pre>
 
+    <h2>identifier.cedar</h2>
+    <pre><code class="language-cedar">
+// poorly formed: This identifier is reserved and cannot be used: XX
+permit (principal, action, resource)
+when { resource.ip == ip("127.0.0.1") }
+when { resource.decimal == decimal("0.1234") }
+when { resource.if.in.has.then.else.like.is.true.false }
+when { resource.principal.resource.action.context }
+when { resource.permit.forbid.when.unless };
+</code></pre>
+
     <h2>if-then-else.cedar</h2>
     <pre><code class="language-cedar">
 permit (
@@ -97,6 +108,29 @@ when
   ip("ff00::2").isMulticast() &&
   ip("192.168.0.1").isInRange(ip("192.168.0.1/24"))
 };
+</code></pre>
+
+    <h2>is.cedar</h2>
+    <pre><code class="language-cedar">
+// https://docs.cedarpolicy.com/policies/syntax-operators.html#operator-is
+permit (
+  principal is User in Group::"friends",
+  action,
+  resource in Group::"friends"
+)
+unless
+{
+  // false - `ExampleCo::User` and `User` are different entity types
+  ExampleCo::User::"alice" is User
+};
+</code></pre>
+
+    <h2>quotes.cedar</h2>
+    <pre><code class="language-cedar">
+// you "must" be 54" tall to ride (wink)
+@id("54\" rule") // 54" is 4' 6" 
+forbid (principal, action, resource)
+when { resource.restriction == "54\"" && principal.height &lt; 54 };
 </code></pre>
 
     <h2>template.cedar</h2>
