@@ -19,8 +19,8 @@
     "cedar"
   ],
   "devDependencies": {
-    "esbuild": "^0.19.11",
-    "prettier": "^3.2.4",
-    "vitest": "^1.2.1"
+    "esbuild": "^0.19.12",
+    "prettier": "^3.2.5",
+    "vitest": "^1.4.0"
   }
 }
