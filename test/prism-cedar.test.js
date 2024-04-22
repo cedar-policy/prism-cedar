@@ -4,23 +4,31 @@
  * vitest script for prism-cedar.min.js
  */
 import { describe, expect, it } from 'vitest';
-import * as path from 'path';
-import * as fs from 'fs';
+import * as path from 'node:path';
+import * as fs from 'node:fs';
 import Prism from './static/prism.js';
 import '../dist/prism-cedar.min.js';
 
-describe('data/*.cedar files', () => {
+const processLanguage = (language) => {
   const files = fs
     .readdirSync(path.join(__dirname, 'data'))
-    .filter((f) => f.endsWith('.cedar'));
+    .filter((f) => f.endsWith(`.${language}`));
   files.forEach((file) => {
     it(file, () => {
       const code = fs.readFileSync(path.join(__dirname, 'data', file), 'utf8');
-      const result = Prism.highlight(code, Prism.languages.cedar, 'cedar');
+      const result = Prism.highlight(code, Prism.languages[language], language);
 
       expect(result).toMatchFileSnapshot(
-        path.join(__dirname, 'data', file.replace('.cedar', '.html')),
+        path.join(__dirname, 'data', file.replace(`.${language}`, '.html')),
       );
     });
   });
+};
+
+describe('data/*.cedar files', () => {
+  processLanguage('cedar');
+});
+
+describe('data/*.cedarschema files', () => {
+  processLanguage('cedarschema');
 });

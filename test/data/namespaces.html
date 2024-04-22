@@ -1,0 +1,37 @@
+<span class="token comment">// nicely formatted with spaces</span>
+<span class="token namespace-declaration"><span class="token keyword">namespace</span> <span class="token namespace">N1</span></span> <span class="token punctuation">{</span>
+  <span class="token keyword">type</span> C <span class="token operator">=</span> <span class="token punctuation">{</span>
+    <span class="token property">a</span>: String
+  <span class="token punctuation">}</span><span class="token punctuation">;</span>
+  <span class="token keyword">entity</span> E<span class="token punctuation">;</span>
+  <span class="token keyword">action</span> a1 <span class="token keyword">appliesTo</span> <span class="token punctuation">{</span>
+    <span class="token property">principal</span>: <span class="token punctuation">[</span>E<span class="token punctuation">]</span><span class="token punctuation">,</span>
+    <span class="token property">resource</span>: <span class="token punctuation">[</span>E<span class="token punctuation">]</span><span class="token punctuation">,</span>
+    <span class="token property">context</span>: <span class="token punctuation">{</span><span class="token punctuation">}</span>
+  <span class="token punctuation">}</span><span class="token punctuation">;</span>
+  <span class="token keyword">action</span> a2 <span class="token keyword">appliesTo</span> <span class="token punctuation">{</span>
+    <span class="token property">principal</span>: <span class="token punctuation">[</span><span class="token entity-type"><span class="token namespace">N2::</span><span class="token namespace"></span><span class="token namespace"></span><span class="token namespace"></span><span class="token namespace"></span>E</span><span class="token punctuation">]</span><span class="token punctuation">,</span>
+    <span class="token property">resource</span>: <span class="token punctuation">[</span><span class="token entity-type"><span class="token namespace">N2::</span><span class="token namespace"></span><span class="token namespace"></span><span class="token namespace"></span><span class="token namespace"></span>E</span><span class="token punctuation">]</span><span class="token punctuation">,</span>
+    <span class="token property">context</span>: <span class="token punctuation">{</span><span class="token punctuation">}</span>
+  <span class="token punctuation">}</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+
+<span class="token comment">// no spaces still valid and should highlight</span>
+<span class="token namespace-declaration"><span class="token keyword">namespace</span> <span class="token namespace">N2</span></span> <span class="token punctuation">{</span>
+  <span class="token keyword">type</span> C<span class="token operator">=</span><span class="token punctuation">{</span><span class="token string">"a"</span>:String<span class="token punctuation">}</span><span class="token punctuation">;</span>
+  <span class="token keyword">entity</span> E<span class="token punctuation">;</span>
+  <span class="token keyword">action</span> <span class="token string">"a1"</span> <span class="token keyword">appliesTo</span> <span class="token punctuation">{</span>
+    <span class="token property">principal</span>:<span class="token punctuation">[</span><span class="token entity-type"><span class="token namespace">N1::</span><span class="token namespace"></span><span class="token namespace"></span><span class="token namespace"></span><span class="token namespace"></span>E</span><span class="token punctuation">]</span><span class="token punctuation">,</span>
+    <span class="token property">resource</span>:<span class="token punctuation">[</span><span class="token entity-type"><span class="token namespace">N1::</span><span class="token namespace"></span><span class="token namespace"></span><span class="token namespace"></span><span class="token namespace"></span>E</span><span class="token punctuation">]</span><span class="token punctuation">,</span>
+    <span class="token property">context</span>:<span class="token punctuation">{</span><span class="token punctuation">}</span>
+  <span class="token punctuation">}</span><span class="token punctuation">;</span>
+  <span class="token keyword">action</span> <span class="token string">"astar"</span> <span class="token keyword">in</span><span class="token punctuation">[</span><span class="token entity-type"><span class="token namespace">N1::</span><span class="token namespace"></span><span class="token namespace"></span><span class="token namespace"></span><span class="token namespace"></span><span class="token namespace"></span><span class="token namespace"></span><span class="token namespace"></span><span class="token namespace"></span><span class="token namespace"></span>Action</span>::<span class="token string">"a1"</span><span class="token punctuation">,</span> <span class="token entity-type"><span class="token namespace">N1::</span><span class="token namespace"></span><span class="token namespace"></span><span class="token namespace"></span><span class="token namespace"></span><span class="token namespace"></span><span class="token namespace"></span><span class="token namespace"></span><span class="token namespace"></span><span class="token namespace"></span>Action</span>::<span class="token string">"a2"</span><span class="token punctuation">,</span>a1<span class="token punctuation">,</span>a2<span class="token punctuation">]</span><span class="token keyword">appliesTo</span><span class="token punctuation">{</span><span class="token property">context</span>:<span class="token punctuation">{</span><span class="token punctuation">}</span><span class="token punctuation">}</span><span class="token punctuation">;</span>
+  <span class="token keyword">action</span> <span class="token string">"a2"</span> <span class="token keyword">appliesTo</span> <span class="token punctuation">{</span>
+    <span class="token property">principal</span>:<span class="token punctuation">[</span>E<span class="token punctuation">]</span><span class="token punctuation">,</span>
+    <span class="token property">resource</span>:<span class="token punctuation">[</span>E<span class="token punctuation">]</span><span class="token punctuation">,</span>
+    <span class="token property">context</span>:<span class="token punctuation">{</span><span class="token punctuation">}</span>
+  <span class="token punctuation">}</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+
+<span class="token comment">// no namespace</span>
+<span class="token keyword">entity</span> Y<span class="token punctuation">;</span>

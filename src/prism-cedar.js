@@ -58,4 +58,45 @@ Prism.languages['cedar'] = {
       greedy: true,
     },
   ],
+  punctuation: /(?:[\(|)|\[|\]|{|}|,|;])/,
+};
+
+Prism.languages['cedarschema'] = {
+  comment: {
+    pattern: /(^|[^\\:])\/\/.*/,
+    lookbehind: true,
+    greedy: true,
+  },
+  string: {
+    pattern: /(^|[^\\])"(?:\\.|[^\\"\r\n])*"/,
+    lookbehind: true,
+    greedy: true,
+  },
+  operator: /=/,
+  keyword: [
+    {
+      pattern: /\b(?:type|entity|action)(?=\s+)/,
+    },
+    {
+      pattern: /\b(?:in)\b/,
+    },
+    {
+      pattern: /\b(?:appliesTo)(?=\s*{)/,
+    },
+  ],
+  'namespace-declaration': {
+    pattern: /\bnamespace\s+[_a-zA-Z][_a-zA-Z0-9]*/,
+    inside: {
+      keyword: /^namespace/,
+      namespace: /[_a-zA-Z][_a-zA-Z0-9]*$/,
+    },
+  },
+  property: /\b(?:[_a-zA-Z][_a-zA-Z0-9]*)(?=[?]?:(?!:))/,
+  'entity-type': {
+    pattern: /\b(?:([_a-zA-Z][_a-zA-Z0-9]*::)+[_a-zA-Z][_a-zA-Z0-9]*)/,
+    inside: {
+      namespace: /^([_a-zA-Z][_a-zA-Z0-9]*::)*/,
+    },
+  },
+  punctuation: /(?:[\[|\]|{|}|,|;])/,
 };

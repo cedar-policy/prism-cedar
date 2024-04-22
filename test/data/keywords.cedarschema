@@ -1,0 +1,11 @@
+// https://docs.cedarpolicy.com/schema/human-readable-schema-grammar.html
+namespace NS {
+  type T = {"type": __cedar::String, namespace: String};
+  entity E in E = {action: String};
+  entity R in [R] = {entity: E};
+  action "a" appliesTo {
+    principal: [NS::E],
+    resource: [NS::R],
+    context: {}
+  };
+}
