@@ -1,11 +1,11 @@
 <span class="token comment">// ip(), isIpv4, isIpv6, isLoopback, isMulticast, isInRange</span>
 <span class="token comment">// see https://docs.cedarpolicy.com/policies/syntax-operators.html#ip-address-functions</span>
-<span class="token keyword">permit</span> (<span class="token variable">principal</span>, <span class="token variable">action</span>, <span class="token variable">resource</span>)
+<span class="token keyword">permit</span> <span class="token punctuation">(</span><span class="token variable">principal</span><span class="token punctuation">,</span> <span class="token variable">action</span><span class="token punctuation">,</span> <span class="token variable">resource</span><span class="token punctuation">)</span>
 <span class="token keyword">when</span>
-{
-  <span class="token builtin">ip</span>(<span class="token string">"127.0.0.1"</span>).<span class="token function">isIpv4</span>() <span class="token operator">&amp;&amp;</span>
-  <span class="token builtin">ip</span>(<span class="token string">"127.0.0.2"</span>).<span class="token function">isLoopback</span>() <span class="token operator">&amp;&amp;</span>
-  <span class="token builtin">ip</span>(<span class="token string">"::1"</span>).<span class="token function">isIpv6</span>() <span class="token operator">&amp;&amp;</span>
-  <span class="token builtin">ip</span>(<span class="token string">"ff00::2"</span>).<span class="token function">isMulticast</span>() <span class="token operator">&amp;&amp;</span>
-  <span class="token builtin">ip</span>(<span class="token string">"192.168.0.1"</span>).<span class="token function">isInRange</span>(<span class="token builtin">ip</span>(<span class="token string">"192.168.0.1/24"</span>))
-};
+<span class="token punctuation">{</span>
+  <span class="token builtin">ip</span><span class="token punctuation">(</span><span class="token string">"127.0.0.1"</span><span class="token punctuation">)</span>.<span class="token function">isIpv4</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">&amp;&amp;</span>
+  <span class="token builtin">ip</span><span class="token punctuation">(</span><span class="token string">"127.0.0.2"</span><span class="token punctuation">)</span>.<span class="token function">isLoopback</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">&amp;&amp;</span>
+  <span class="token builtin">ip</span><span class="token punctuation">(</span><span class="token string">"::1"</span><span class="token punctuation">)</span>.<span class="token function">isIpv6</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">&amp;&amp;</span>
+  <span class="token builtin">ip</span><span class="token punctuation">(</span><span class="token string">"ff00::2"</span><span class="token punctuation">)</span>.<span class="token function">isMulticast</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">&amp;&amp;</span>
+  <span class="token builtin">ip</span><span class="token punctuation">(</span><span class="token string">"192.168.0.1"</span><span class="token punctuation">)</span>.<span class="token function">isInRange</span><span class="token punctuation">(</span><span class="token builtin">ip</span><span class="token punctuation">(</span><span class="token string">"192.168.0.1/24"</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+<span class="token punctuation">}</span><span class="token punctuation">;</span>

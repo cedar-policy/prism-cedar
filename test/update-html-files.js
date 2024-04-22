@@ -1,27 +1,47 @@
 // Copyright Cedar Contributors
 // SPDX-License-Identifier: Apache-2.0
 /*
- * updates each index.html file with *.cedar files
+ * updates each index.html file with *.cedar and *.cedarschema files
  */
-const path = require('path');
-const fs = require('fs');
+const path = require('node:path');
+const fs = require('node:fs');
 
 function buildExamples() {
-  let html = '';
+  let html = '',
+    cedarHTML = '',
+    cedarschemaHTML = '';
 
-  const files = fs
-    .readdirSync(path.join(__dirname, 'data'))
-    .filter((f) => f.endsWith('.cedar'));
+  const files = fs.readdirSync(path.join(__dirname, 'data')).filter((f) => {
+    return f.endsWith('.cedar') || f.endsWith('.cedarschema');
+  });
   files.forEach((file) => {
     const code = fs.readFileSync(path.join(__dirname, 'data', file), 'utf8');
 
-    html += `
-    <h2>${file}</h2>
+    if (file.endsWith('.cedarschema')) {
+      cedarschemaHTML += `
+    <h3>${file}</h3>
+    <pre><code class="language-cedarschema">
+${code.replaceAll('<', '&lt;')}
+</code></pre>
+`;
+    } else {
+      cedarHTML += `
+    <h3>${file}</h3>
     <pre><code class="language-cedar">
 ${code.replaceAll('<', '&lt;')}
 </code></pre>
 `;
+    }
   });
+
+  html = `
+    <h2>Cedar</h2>
+${cedarHTML}
+    <hr />
+
+    <h2>Cedar schema</h2>
+${cedarschemaHTML}
+`;
 
   return html;
 }

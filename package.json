@@ -1,7 +1,7 @@
 {
   "name": "prism-cedar",
-  "version": "0.3.0",
-  "description": "Prism support for Cedar policy syntax",
+  "version": "0.4.0",
+  "description": "Prism support for Cedar policy and Cedar human-readable schema syntax",
   "author": "cedar-policy",
   "license": "Apache-2.0",
   "repository": {
@@ -16,11 +16,12 @@
   "keywords": [
     "prism",
     "highlight",
-    "cedar"
+    "cedar",
+    "cedarschema"
   ],
   "devDependencies": {
     "esbuild": "^0.19.12",
     "prettier": "^3.2.5",
-    "vitest": "^1.4.0"
+    "vitest": "^1.5.0"
   }
 }

@@ -1,0 +1,37 @@
+// nicely formatted with spaces
+namespace N1 {
+  type C = {
+    a: String
+  };
+  entity E;
+  action a1 appliesTo {
+    principal: [E],
+    resource: [E],
+    context: {}
+  };
+  action a2 appliesTo {
+    principal: [N2::E],
+    resource: [N2::E],
+    context: {}
+  };
+}
+
+// no spaces still valid and should highlight
+namespace N2 {
+  type C={"a":String};
+  entity E;
+  action "a1" appliesTo {
+    principal:[N1::E],
+    resource:[N1::E],
+    context:{}
+  };
+  action "astar" in[N1::Action::"a1", N1::Action::"a2",a1,a2]appliesTo{context:{}};
+  action "a2" appliesTo {
+    principal:[E],
+    resource:[E],
+    context:{}
+  };
+}
+
+// no namespace
+entity Y;
