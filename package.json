@@ -23,5 +23,14 @@
     "esbuild": "^0.19.12",
     "prettier": "^3.2.5",
     "vitest": "^1.5.0"
-  }
+  },
+  "files": [
+    "LICENSE",
+    "README.md",
+    "NOTICE",
+    "dist/prism-cedar.min.js",
+    "dist/prism-cedar.d.ts"
+  ],
+  "main": "dist/prism-cedar.min.js",
+  "types": "dist/prism-cedar.d.ts"
 }
