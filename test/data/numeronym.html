@@ -1,0 +1,8 @@
+<span class="token comment">// inspired by https://www.cedarpolicy.com/blog/cedar-for-kubernetes</span>
+<span class="token keyword">forbid</span> <span class="token punctuation">(</span>
+    <span class="token variable">principal</span> <span class="token operator">is</span> <span class="token class-name">k8s::User</span><span class="token punctuation">,</span>
+    <span class="token variable">action</span> <span class="token operator">in</span> <span class="token punctuation">[</span><span class="token class-name">k8s::Action</span>::<span class="token string">"list"</span><span class="token punctuation">,</span> <span class="token class-name">k8s::Action</span>::<span class="token string">"update"</span><span class="token punctuation">]</span><span class="token punctuation">,</span>
+    <span class="token variable">resource</span> <span class="token operator">is</span> <span class="token class-name">k8s::Resource</span>
+<span class="token punctuation">)</span> <span class="token keyword">when</span> <span class="token punctuation">{</span>
+    <span class="token variable">principal</span> <span class="token operator">in</span> <span class="token class-name">k8s::Group</span>::<span class="token string">"block-list"</span>
+<span class="token punctuation">}</span><span class="token punctuation">;</span>

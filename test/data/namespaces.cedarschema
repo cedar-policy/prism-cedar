@@ -35,3 +35,24 @@ namespace N2 {
 
 // no namespace
 entity Y;
+
+// numeronym namespace (like k8s or i18n)
+namespace k8s {
+  entity User in Group;
+  entity Group;
+  entity Resource {
+    metadata?: String
+  };
+  action "list" appliesTo {
+    principal: [k8s::User],
+    resource: [k8s::Resource],
+    context: {}
+  };  
+  action "update" appliesTo {
+    principal: [k8s::User],
+    resource: [k8s::Resource],
+    context: {
+      oldObject?: String
+    }
+  };
+}

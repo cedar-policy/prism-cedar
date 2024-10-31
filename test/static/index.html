@@ -127,12 +127,32 @@ unless
 };
 </code></pre>
 
+    <h3>numeronym.cedar</h3>
+    <pre><code class="language-cedar">
+// inspired by https://www.cedarpolicy.com/blog/cedar-for-kubernetes
+forbid (
+    principal is k8s::User,
+    action in [k8s::Action::"list", k8s::Action::"update"],
+    resource is k8s::Resource
+) when {
+    principal in k8s::Group::"block-list"
+};
+</code></pre>
+
     <h3>quotes.cedar</h3>
     <pre><code class="language-cedar">
 // you "must" be 54" tall to ride (wink)
-@id("54\" rule") // 54" is 4' 6" 
+@id("54\" rule") // 54" is 4' 6"
 forbid (principal, action, resource)
-when { resource.restriction == "54\"" && principal.height &lt; 54 };
+when
+{
+  resource.restriction == "54\"" &&
+  principal.height &lt; 54 &&
+  principal.attrSet.contains({
+    "key": "height", 
+    "values": ["54\"", "4' 6\""]
+  })
+};
 </code></pre>
 
     <h3>template.cedar</h3>
@@ -207,6 +227,26 @@ namespace N2 {
 // no namespace
 entity Y;
 
+// numeronym namespace (like k8s or i18n)
+namespace k8s {
+  entity User in Group;
+  entity Group;
+  entity Resource {
+    metadata?: String
+  };
+  action "list" appliesTo {
+    principal: [k8s::User],
+    resource: [k8s::Resource],
+    context: {}
+  };  
+  action "update" appliesTo {
+    principal: [k8s::User],
+    resource: [k8s::Resource],
+    context: {
+      oldObject?: String
+    }
+  };
+}
 </code></pre>
 
     <!-- END generated code -->
