@@ -2,6 +2,10 @@
 
 All notable changes to this project will be documented in this file.
 
+## v0.4.1 2024-10-31
+
+- Fix highlight issue with quoted string
+
 ## v0.4.0 2024-04-20
 
 - Add Cedar human-readable schema support
