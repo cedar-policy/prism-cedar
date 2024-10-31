@@ -12,8 +12,7 @@ Prism.languages['cedar'] = {
     greedy: true,
   },
   string: {
-    pattern: /(^|[^\\])"(?:\\.|[^\\"\r\n])*"(?!\s*:)/,
-    lookbehind: true,
+    pattern: /(["])(?:\\(?:\r\n|[\s\S])|(?!\1)[^\\\r\n])*\1/,
     greedy: true,
   },
   keyword: /\b(?<!\.)(?:permit|forbid|when|unless)\b/,
@@ -33,12 +32,13 @@ Prism.languages['cedar'] = {
   ],
   'class-name': [
     {
-      pattern: /\b(?:([_a-zA-Z][_a-zA-Z0-9]*::)*[_a-zA-Z][_a-zA-Z0-9]*)(?=::)/, // (?=::")
-    },
-    {
       pattern: /(\s+is\s+)([_a-zA-Z][_a-zA-Z0-9]*::)*[_a-zA-Z][_a-zA-Z0-9]*/,
       greedy: true, // since "is" is defined above as operator
       lookbehind: true,
+    },
+    {
+      pattern: /\b(?:([_a-zA-Z][_a-zA-Z0-9]*::)*[_a-zA-Z][_a-zA-Z0-9]*)(?=::)/, // (?=::"),
+      greedy: true,
     },
   ],
   builtin: /\b(?:ip|decimal)(?=\()/,
@@ -68,8 +68,7 @@ Prism.languages['cedarschema'] = {
     greedy: true,
   },
   string: {
-    pattern: /(^|[^\\])"(?:\\.|[^\\"\r\n])*"/,
-    lookbehind: true,
+    pattern: /(["])(?:\\(?:\r\n|[\s\S])|(?!\1)[^\\\r\n])*\1/,
     greedy: true,
   },
   operator: /=/,

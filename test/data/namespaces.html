@@ -35,3 +35,24 @@
 
 <span class="token comment">// no namespace</span>
 <span class="token keyword">entity</span> Y<span class="token punctuation">;</span>
+
+<span class="token comment">// numeronym namespace (like k8s or i18n)</span>
+<span class="token namespace-declaration"><span class="token keyword">namespace</span> <span class="token namespace">k8s</span></span> <span class="token punctuation">{</span>
+  <span class="token keyword">entity</span> User <span class="token keyword">in</span> Group<span class="token punctuation">;</span>
+  <span class="token keyword">entity</span> Group<span class="token punctuation">;</span>
+  <span class="token keyword">entity</span> Resource <span class="token punctuation">{</span>
+    <span class="token property">metadata</span>?: String
+  <span class="token punctuation">}</span><span class="token punctuation">;</span>
+  <span class="token keyword">action</span> <span class="token string">"list"</span> <span class="token keyword">appliesTo</span> <span class="token punctuation">{</span>
+    <span class="token property">principal</span>: <span class="token punctuation">[</span><span class="token entity-type"><span class="token namespace">k8s::</span><span class="token namespace"></span><span class="token namespace"></span><span class="token namespace"></span><span class="token namespace"></span><span class="token namespace"></span><span class="token namespace"></span><span class="token namespace"></span><span class="token namespace"></span>User</span><span class="token punctuation">]</span><span class="token punctuation">,</span>
+    <span class="token property">resource</span>: <span class="token punctuation">[</span><span class="token entity-type"><span class="token namespace">k8s::</span><span class="token namespace"></span><span class="token namespace"></span><span class="token namespace"></span><span class="token namespace"></span><span class="token namespace"></span><span class="token namespace"></span><span class="token namespace"></span><span class="token namespace"></span><span class="token namespace"></span><span class="token namespace"></span><span class="token namespace"></span><span class="token namespace"></span>Resource</span><span class="token punctuation">]</span><span class="token punctuation">,</span>
+    <span class="token property">context</span>: <span class="token punctuation">{</span><span class="token punctuation">}</span>
+  <span class="token punctuation">}</span><span class="token punctuation">;</span>  
+  <span class="token keyword">action</span> <span class="token string">"update"</span> <span class="token keyword">appliesTo</span> <span class="token punctuation">{</span>
+    <span class="token property">principal</span>: <span class="token punctuation">[</span><span class="token entity-type"><span class="token namespace">k8s::</span><span class="token namespace"></span><span class="token namespace"></span><span class="token namespace"></span><span class="token namespace"></span><span class="token namespace"></span><span class="token namespace"></span><span class="token namespace"></span><span class="token namespace"></span>User</span><span class="token punctuation">]</span><span class="token punctuation">,</span>
+    <span class="token property">resource</span>: <span class="token punctuation">[</span><span class="token entity-type"><span class="token namespace">k8s::</span><span class="token namespace"></span><span class="token namespace"></span><span class="token namespace"></span><span class="token namespace"></span><span class="token namespace"></span><span class="token namespace"></span><span class="token namespace"></span><span class="token namespace"></span><span class="token namespace"></span><span class="token namespace"></span><span class="token namespace"></span><span class="token namespace"></span>Resource</span><span class="token punctuation">]</span><span class="token punctuation">,</span>
+    <span class="token property">context</span>: <span class="token punctuation">{</span>
+      <span class="token property">oldObject</span>?: String
+    <span class="token punctuation">}</span>
+  <span class="token punctuation">}</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
