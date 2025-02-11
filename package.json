@@ -20,7 +20,7 @@
     "cedarschema"
   ],
   "devDependencies": {
-    "esbuild": "^0.19.12",
+    "esbuild": "^0.25.0",
     "prettier": "^3.3.3",
     "vitest": "^1.6.1"
   },
