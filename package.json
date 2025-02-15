@@ -20,9 +20,9 @@
     "cedarschema"
   ],
   "devDependencies": {
-    "esbuild": "^0.19.12",
-    "prettier": "^3.3.3",
-    "vitest": "^1.6.1"
+    "esbuild": "^0.25.0",
+    "prettier": "^3.5.1",
+    "vitest": "^3.0.5"
   },
   "files": [
     "LICENSE",

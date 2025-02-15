@@ -21,7 +21,12 @@ jobs:
           node-version: '20'
           cache: 'npm'
 
-      - name: Test
+      - name: Build and Test
         run: |
           npm ci
+          npm run build
           npm run test
+
+      - name: Check dist/ files match
+        run: |
+          git diff --exit-code dist/ || (echo "❌ dist/ files don't match the committed version" && exit 1)

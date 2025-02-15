@@ -14,11 +14,11 @@ const processLanguage = (language) => {
     .readdirSync(path.join(__dirname, 'data'))
     .filter((f) => f.endsWith(`.${language}`));
   files.forEach((file) => {
-    it(file, () => {
+    it(file, async () => {
       const code = fs.readFileSync(path.join(__dirname, 'data', file), 'utf8');
       const result = Prism.highlight(code, Prism.languages[language], language);
 
-      expect(result).toMatchFileSnapshot(
+      await expect(result).toMatchFileSnapshot(
         path.join(__dirname, 'data', file.replace(`.${language}`, '.html')),
       );
     });
