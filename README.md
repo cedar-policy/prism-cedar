@@ -32,6 +32,16 @@ View the static `test/static/index.html` in your browser which loads `dist/prism
 
 When new `test/data/*.cedar` or `test/data/*.cedarschema` files are created, `npm run testdata` will update the contents of each `index.html` file.
 
+### Pull Request
+
+Pull requests require a [Developer Certificate of Origin (DCO)](https://probot.github.io/apps/dco/) to certify the right to submit the code they are contributing to the project.  Either add the `-s` or the `--signoff` flag to your commits or update your `.vscode/settings.json` with `git.alwaysSignOff`.
+
+```json
+{
+  "git.alwaysSignOff": true
+}
+```
+
 ## Security
 
 See [CONTRIBUTING](CONTRIBUTING.md#security-issue-notifications) for more information.
