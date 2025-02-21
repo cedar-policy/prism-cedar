@@ -1,6 +1,6 @@
 # Prism support for Cedar policy language and Cedar schema
 
-[Prism](https://prismjs.com/index.html) (a lightweight, extensible syntax highlighter) support for Cedar policy language based on [Grammar specification for Cedar policy syntax](https://docs.cedarpolicy.com/syntax-grammar.html) and for Cedar schema based on [Grammar specification for Cedar schemas](https://docs.cedarpolicy.com/schema/human-readable-schema-grammar.html) and mapped tp [Prism tokens](https://prismjs.com/tokens.html).
+[Prism](https://prismjs.com/index.html) (a lightweight, extensible syntax highlighter) support for Cedar policy language based on [Grammar specification for Cedar policy syntax](https://docs.cedarpolicy.com/syntax-grammar.html) and for Cedar schema based on [Grammar specification for Cedar schemas](https://docs.cedarpolicy.com/schema/human-readable-schema-grammar.html) and mapped to [Prism tokens](https://prismjs.com/tokens.html).
 
 ## Use
 
