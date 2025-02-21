@@ -5,5 +5,6 @@ when
 {
   [1, -22, 34].contains(1) &&
   [1, -22, 34].containsAll([-22, 1]) &&
-  [1, -22].containsAny([1, -22, 34])
+  [1, -22].containsAny([1, -22, 34]) &&
+  [].isEmpty()
 };

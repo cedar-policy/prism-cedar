@@ -41,11 +41,12 @@ Prism.languages['cedar'] = {
       greedy: true,
     },
   ],
-  builtin: /\b(?:ip|decimal)(?=\()/,
+  builtin: /\b(?:ip|decimal|datetime|duration)(?=\()/,
   function: [
     {
       // methods
-      pattern: /(?=.)(contains|containsAll|containsAny)(?=\()/,
+      pattern:
+        /(?=.)(contains|containsAll|containsAny|isEmpty|getTag|hasTag)(?=\()/,
     },
     {
       // decimal methods
@@ -55,6 +56,16 @@ Prism.languages['cedar'] = {
     {
       // ip methods
       pattern: /(?=.)(isIpv4|isIpv6|isLoopback|isMulticast|isInRange)(?=\()/,
+      greedy: true,
+    },
+    {
+      // datetime methods
+      pattern: /(?=.)(offset|durationSince|toDate|toTime)(?=\()/,
+      greedy: true,
+    },
+    {
+      // duration methods
+      pattern: /(?=.)(toMilliseconds|toSeconds|toMinutes|toHours|toDays)(?=\()/,
       greedy: true,
     },
   ],
@@ -81,6 +92,9 @@ Prism.languages['cedarschema'] = {
     },
     {
       pattern: /\b(?:appliesTo)(?=\s*{)/,
+    },
+    {
+      pattern: /(?<=}\s*)(?:tags)\b/,
     },
   ],
   'namespace-declaration': {
