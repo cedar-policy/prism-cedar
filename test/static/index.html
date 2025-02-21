@@ -28,7 +28,33 @@ when
 {
   [1, -22, 34].contains(1) &&
   [1, -22, 34].containsAll([-22, 1]) &&
-  [1, -22].containsAny([1, -22, 34])
+  [1, -22].containsAny([1, -22, 34]) &&
+  [].isEmpty()
+};
+</code></pre>
+
+    <h3>datetime.cedar</h3>
+    <pre><code class="language-cedar">
+// datetime(), offset, durationSince, toDate, toTime
+// duration(), toMilliseconds, toSeconds, toMinutes, toHours, toDays
+// see https://github.com/strongdm/cedar-rfcs/blob/datetime-rfc/text/0080-datetime-extension.md
+permit (principal, action, resource)
+when
+{
+  datetime("2024-08-21T") == datetime("2024-08-21T00:00:00.000Z") &&
+  datetime("2024-08-21T") == datetime("2024-08-21T23:59:59.999Z").toDate() && 
+  datetime("2024-08-21T").offset(duration("1d")) == datetime("2024-08-22T") &&
+  datetime("2024-08-21T").toTime() == datetime("2024-08-21T").durationSince(datetime("2024-08-21T").toDate())
+};
+
+permit (principal, action, resource)
+when
+{
+  duration("1d").toDays() == duration("1d").toHours() / 24 &&
+  duration("1h").toHours() == duration("1h").toMinutes() / 60 &&
+  duration("1m").toMinutes() == duration("1m").toSeconds() / 60 &&
+  duration("1s").toSeconds() == duration("1s").toMilliseconds() / 1000 &&
+  duration("1ms").toMilliseconds() == 1
 };
 </code></pre>
 
@@ -65,6 +91,25 @@ when
   (1 == -1) &&
   "true" like "false"
 };
+</code></pre>
+
+    <h3>hastag.cedar</h3>
+    <pre><code class="language-cedar">
+// https://github.com/cedar-policy/rfcs/blob/main/text/0082-entity-tags.md
+permit (
+  principal is User,
+  action == Action::"writeDoc",
+  resource is Document
+)
+when
+{
+  resource.owner == principal ||
+  (principal.jobLevel > 6 &&
+   resource.hasTag("write") &&
+   principal.hasTag("write") &&
+   resource.getTag("write").containsAny(principal.getTag("write")))
+};
+
 </code></pre>
 
     <h3>identifier.cedar</h3>
@@ -247,6 +292,21 @@ namespace k8s {
     }
   };
 }
+</code></pre>
+
+    <h3>tags.cedarschema</h3>
+    <pre><code class="language-cedarschema">
+entity User = {
+  jobLevel: Long,
+} tags Set&lt;String>;
+entity Document = {
+  owner: User,
+} tags Set&lt;String>;
+action "writeDoc" appliesTo {
+  principal: [User],
+  resource: [Document],
+  context: {}
+};
 </code></pre>
 
     <!-- END generated code -->

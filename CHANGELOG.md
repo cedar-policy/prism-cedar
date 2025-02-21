@@ -2,13 +2,17 @@
 
 All notable changes to this project will be documented in this file.
 
+## v0.5.0 2025-02-21
+
+- Add Cedar language 4.2 support including experimental `datetime` extension
+
 ## v0.4.1 2024-10-31
 
 - Fix highlight issue with quoted string
 
 ## v0.4.0 2024-04-20
 
-- Add Cedar human-readable schema support
+- Add Cedar schema support
 - Add punctuation tokens
 - Update copyright to Cedar Contributors
 

@@ -1,0 +1,11 @@
+<span class="token keyword">entity</span> User <span class="token operator">=</span> <span class="token punctuation">{</span>
+  <span class="token property">jobLevel</span>: Long<span class="token punctuation">,</span>
+<span class="token punctuation">}</span> <span class="token keyword">tags</span> Set&lt;String><span class="token punctuation">;</span>
+<span class="token keyword">entity</span> Document <span class="token operator">=</span> <span class="token punctuation">{</span>
+  <span class="token property">owner</span>: User<span class="token punctuation">,</span>
+<span class="token punctuation">}</span> <span class="token keyword">tags</span> Set&lt;String><span class="token punctuation">;</span>
+<span class="token keyword">action</span> <span class="token string">"writeDoc"</span> <span class="token keyword">appliesTo</span> <span class="token punctuation">{</span>
+  <span class="token property">principal</span>: <span class="token punctuation">[</span>User<span class="token punctuation">]</span><span class="token punctuation">,</span>
+  <span class="token property">resource</span>: <span class="token punctuation">[</span>Document<span class="token punctuation">]</span><span class="token punctuation">,</span>
+  <span class="token property">context</span>: <span class="token punctuation">{</span><span class="token punctuation">}</span>
+<span class="token punctuation">}</span><span class="token punctuation">;</span>

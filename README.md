@@ -1,6 +1,6 @@
-# Prism support for Cedar policy language and Cedar human-readable schema
+# Prism support for Cedar policy language and Cedar schema
 
-[Prism](https://prismjs.com/index.html) (a lightweight, extensible syntax highlighter) support for Cedar policy language based on [Grammar specification for Cedar policy syntax](https://docs.cedarpolicy.com/syntax-grammar.html) and for Cedar human-readable schema based on [Grammar specification for human-readable schemas](https://docs.cedarpolicy.com/schema/human-readable-schema-grammar.html) and mapped tp [Prism tokens](https://prismjs.com/tokens.html).
+[Prism](https://prismjs.com/index.html) (a lightweight, extensible syntax highlighter) support for Cedar policy language based on [Grammar specification for Cedar policy syntax](https://docs.cedarpolicy.com/syntax-grammar.html) and for Cedar schema based on [Grammar specification for Cedar schemas](https://docs.cedarpolicy.com/schema/human-readable-schema-grammar.html) and mapped tp [Prism tokens](https://prismjs.com/tokens.html).
 
 ## Use
 
@@ -26,7 +26,7 @@ The `npm run build` script uses [esbuild](https://esbuild.github.io/api/) to cre
 ### Test
 
 `npm run test` uses [vitest](https://vitest.dev) to syntax highlight `test/data/*.cedar` and `test/data/*.cedarschema` files and compares against a generated `.html`
-[File Snapshots](https://vitest.dev/guide/snapshot.html#file-snapshots) for each Cedar and Cedar human-readable schema file.
+[File Snapshots](https://vitest.dev/guide/snapshot.html#file-snapshots) for each Cedar and Cedar schema file.
 
 View the static `test/static/index.html` in your browser which loads `dist/prism-cedar.min.js`.  The `test/static` folder includes a downloaded copy of PrismJS 1.29.0.
 
