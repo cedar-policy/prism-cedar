@@ -20,9 +20,13 @@
     "cedarschema"
   ],
   "devDependencies": {
-    "esbuild": "^0.25.2",
-    "prettier": "^3.5.3",
-    "vitest": "^3.1.1"
+    "esbuild": "^0.28.1",
+    "prettier": "^3.9.4",
+    "vitest": "^4.1.9"
+  },
+  "allowScripts": {
+    "esbuild@0.28.1": true,
+    "fsevents@2.3.3": true
   },
   "files": [
     "LICENSE",
