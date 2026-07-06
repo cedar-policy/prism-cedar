@@ -1,0 +1,5 @@
+// the angle brackets in Set<...> types should be highlighted as punctuation
+entity Photo {
+  scores: Set<Long>,
+  labels: Set<Set<String>>,
+};

@@ -1,0 +1,8 @@
+<span class="token comment">// the logical-not operator `!` should be highlighted as an operator</span>
+<span class="token keyword">permit</span> <span class="token punctuation">(</span><span class="token variable">principal</span><span class="token punctuation">,</span> <span class="token variable">action</span><span class="token punctuation">,</span> <span class="token variable">resource</span><span class="token punctuation">)</span>
+<span class="token keyword">when</span>
+<span class="token punctuation">{</span>
+  <span class="token operator">!</span><span class="token boolean">false</span> <span class="token operator">&amp;&amp;</span>
+  <span class="token operator">!</span><span class="token punctuation">(</span><span class="token variable">principal</span> <span class="token operator">==</span> <span class="token variable">resource</span><span class="token punctuation">)</span> <span class="token operator">&amp;&amp;</span>
+  <span class="token operator">!</span><span class="token operator">!</span><span class="token boolean">true</span>
+<span class="token punctuation">}</span><span class="token punctuation">;</span>

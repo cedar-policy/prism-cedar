@@ -9,7 +9,7 @@
   },
   "scripts": {
     "build": "esbuild src/prism-cedar.js --outfile=dist/prism-cedar.min.js  --minify",
-    "test": "npm run prettier && vitest",
+    "test": "npm run prettier && npm run build && vitest",
     "prettier": "prettier --check .",
     "testdata": "cd test && node update-html-files.js"
   },
