@@ -1,0 +1,5 @@
+// `enum` introduces an enumerated entity type and should be highlighted as a keyword
+namespace App {
+  entity Color enum ["Red", "Green", "Blue"];
+  entity Status enum ["Active"];
+}

@@ -7,7 +7,7 @@ Website: https://www.cedarpolicy.com/
 // see https://prismjs.com/extending.html and https://prismjs.com/tokens.html
 Prism.languages['cedar'] = {
   comment: {
-    pattern: /(^|[^\\:])\/\/.*/,
+    pattern: /(^|[^\\])\/\/.*/,
     lookbehind: true,
     greedy: true,
   },
@@ -20,10 +20,10 @@ Prism.languages['cedar'] = {
   boolean: /\b(?:false|true)\b/,
   symbol: /\?(?:principal|resource)\b/,
   variable: /\b(?<![\.\?])(?:principal|action|resource|context)\b/,
-  number: /\b0|\-?[1-9](_?[0-9])*/,
+  number: /\b[0-9]+/,
   operator: [
     {
-      pattern: /(?:&&|\|\||==|!=|>=|<=|>|<|\+|-|\*)/,
+      pattern: /(?:&&|\|\||==|!=|>=|<=|>|<|\+|-|\*|!)/,
     },
     {
       // don't worry about excluding . before operator reserved identifiers
@@ -69,12 +69,12 @@ Prism.languages['cedar'] = {
       greedy: true,
     },
   ],
-  punctuation: /(?:[\(|)|\[|\]|{|}|,|;])/,
+  punctuation: /[()\[\]{},;]/,
 };
 
 Prism.languages['cedarschema'] = {
   comment: {
-    pattern: /(^|[^\\:])\/\/.*/,
+    pattern: /(^|[^\\])\/\/.*/,
     lookbehind: true,
     greedy: true,
   },
@@ -88,6 +88,9 @@ Prism.languages['cedarschema'] = {
       pattern: /\b(?:type|entity|action)(?=\s+)/,
     },
     {
+      pattern: /\benum\b(?=\s*\[)/,
+    },
+    {
       pattern: /\b(?:in)\b/,
     },
     {
@@ -98,10 +101,10 @@ Prism.languages['cedarschema'] = {
     },
   ],
   'namespace-declaration': {
-    pattern: /\bnamespace\s+[_a-zA-Z][_a-zA-Z0-9]*/,
+    pattern: /\bnamespace\s+([_a-zA-Z][_a-zA-Z0-9]*::)*[_a-zA-Z][_a-zA-Z0-9]*/,
     inside: {
       keyword: /^namespace/,
-      namespace: /[_a-zA-Z][_a-zA-Z0-9]*$/,
+      namespace: /(?:[_a-zA-Z][_a-zA-Z0-9]*::)*[_a-zA-Z][_a-zA-Z0-9]*$/,
     },
   },
   property: /\b(?:[_a-zA-Z][_a-zA-Z0-9]*)(?=[?]?:(?!:))/,
@@ -111,5 +114,5 @@ Prism.languages['cedarschema'] = {
       namespace: /^([_a-zA-Z][_a-zA-Z0-9]*::)*/,
     },
   },
-  punctuation: /(?:[\[|\]|{|}|,|;])/,
+  punctuation: /[\[\]{}<>,;]/,
 };

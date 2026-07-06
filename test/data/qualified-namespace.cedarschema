@@ -1,0 +1,6 @@
+// a `::`-qualified namespace name should be fully highlighted, not just the first segment
+namespace App::Sub::Deep {
+  entity User {
+    name: String,
+  };
+}

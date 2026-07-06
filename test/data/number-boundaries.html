@@ -1,0 +1,19 @@
+<span class="token comment">// numbers should be whole tokens; `-` is an operator, not part of the number.</span>
+<span class="token comment">// leading zeros (01, 007) are valid Cedar and should be highlighted;</span>
+<span class="token comment">// `0` inside/at the end of an identifier (count0, a0b) must stay a plain variable.</span>
+<span class="token comment">// a digit glued to following text (0has, 0.attr) still highlights the leading number.</span>
+<span class="token keyword">permit</span> <span class="token punctuation">(</span><span class="token variable">principal</span><span class="token punctuation">,</span> <span class="token variable">action</span><span class="token punctuation">,</span> <span class="token variable">resource</span><span class="token punctuation">)</span>
+<span class="token keyword">when</span>
+<span class="token punctuation">{</span>
+  <span class="token variable">context</span>.a <span class="token operator">==</span> <span class="token operator">-</span><span class="token number">5</span> <span class="token operator">&amp;&amp;</span>
+  <span class="token variable">context</span>.b <span class="token operator">==</span> <span class="token number">0</span> <span class="token operator">&amp;&amp;</span>
+  <span class="token variable">context</span>.c <span class="token operator">==</span> <span class="token operator">-</span><span class="token number">0</span> <span class="token operator">&amp;&amp;</span>
+  <span class="token variable">context</span>.count0 <span class="token operator">==</span> <span class="token number">42</span> <span class="token operator">&amp;&amp;</span>
+  <span class="token variable">context</span>.a0b <span class="token operator">==</span> <span class="token number">7</span> <span class="token operator">&amp;&amp;</span>
+  <span class="token variable">context</span>.d <span class="token operator">==</span> <span class="token number">10</span> <span class="token operator">&amp;&amp;</span>
+  <span class="token variable">context</span>.e <span class="token operator">==</span> <span class="token number">101</span> <span class="token operator">&amp;&amp;</span>
+  <span class="token variable">context</span>.f <span class="token operator">==</span> <span class="token number">01</span> <span class="token operator">&amp;&amp;</span>
+  <span class="token variable">context</span>.g <span class="token operator">==</span> <span class="token number">007</span> <span class="token operator">&amp;&amp;</span>
+  <span class="token number">0</span><span class="token operator">has</span> attr <span class="token operator">&amp;&amp;</span>
+  <span class="token number">0</span>.attr
+<span class="token punctuation">}</span><span class="token punctuation">;</span>
