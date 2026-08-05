@@ -17,25 +17,25 @@
     <fieldset>
       <legend>Theme</legend>
       <label
-        ><input
-          type="radio"
-          name="theme"
-          value="prism.css"
-          checked
-          onchange="document.getElementById('theme').href = this.value"
-        />
+        ><input type="radio" name="theme" value="prism.css" checked />
         default</label
       >
       <label
-        ><input
-          type="radio"
-          name="theme"
-          value="prism-dark.css"
-          onchange="document.getElementById('theme').href = this.value"
-        />
-        dark</label
+        ><input type="radio" name="theme" value="prism-dark.css" /> dark</label
       >
     </fieldset>
+    <script>
+      document
+        .querySelectorAll('input[name="theme"]')
+        .forEach(function (radio) {
+          radio.addEventListener('change', function () {
+            var allowed = ['prism.css', 'prism-dark.css'];
+            if (allowed.indexOf(this.value) !== -1) {
+              document.getElementById('theme').href = this.value;
+            }
+          });
+        });
+    </script>
 
     <!-- prettier-ignore-start -->
     <!-- BEGIN generated code -->
