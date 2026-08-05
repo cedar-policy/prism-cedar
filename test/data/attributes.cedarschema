@@ -1,0 +1,38 @@
+// AttrDecls := Annotations Name ['?'] ':' Type [',' | ',' AttrDecls]
+// Name      := IDENT | STR
+// see https://docs.cedarpolicy.com/schema/human-readable-schema-grammar.html
+namespace NS {
+  // a quoted attribute name is a Name, not a string value
+  type Quoted = {
+    "id": Long,
+    "name": String,
+    "owner info": String,
+  };
+
+  // optional attributes
+  entity Resource {
+    metadata?: String,
+    required: Long,
+    "quoted optional"?: Bool
+  };
+
+  // words that are keywords elsewhere are legal attribute names
+  type Names = {
+    "type": __cedar::String,
+    namespace: String,
+    entity: String,
+    action: String,
+    enum: Long,
+    tags: Bool,
+    Set: Long,
+    appliesTo: Bool,
+    // `in` is a reserved identifier, so it is only legal quoted
+    "in": String
+  };
+
+  // an ordinary string containing a colon is still a string
+  @doc("id: the task id")
+  entity Doc = {
+    url: String
+  };
+}

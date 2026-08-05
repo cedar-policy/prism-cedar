@@ -1,0 +1,38 @@
+<span class="token comment">// Namespace := (Annotations 'namespace' Path '{' {Decl} '}') | Decl</span>
+<span class="token comment">// Entity    := ... 'entity' Idents ['in' EntOrTyps] [['='] RecType] ['tags' Type] ';'</span>
+<span class="token comment">//            | ... 'entity' Idents 'enum' '[' STR+ ']' ';'</span>
+<span class="token comment">// see https://docs.cedarpolicy.com/schema/human-readable-schema-grammar.html</span>
+
+<span class="token comment">// a namespace name is a Path, not a single IDENT</span>
+<span class="token namespace-declaration"><span class="token keyword">namespace</span> <span class="token namespace">Foo::Bar::Baz</span></span> <span class="token punctuation">{</span>
+  <span class="token keyword">entity</span> E<span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+
+<span class="token comment">// declarations are not line oriented</span>
+<span class="token namespace-declaration"><span class="token keyword">namespace</span> <span class="token namespace">M</span></span> <span class="token punctuation">{</span> <span class="token keyword">entity</span> U<span class="token punctuation">;</span> <span class="token keyword">action</span> x <span class="token keyword">appliesTo</span> <span class="token punctuation">{</span> <span class="token property">principal</span><span class="token punctuation">:</span> U<span class="token punctuation">,</span> <span class="token property">resource</span><span class="token punctuation">:</span> U <span class="token punctuation">}</span><span class="token punctuation">;</span> <span class="token punctuation">}</span>
+
+<span class="token comment">// 'in' takes a single EntType or a bracketed list</span>
+<span class="token keyword">entity</span> Album<span class="token punctuation">,</span> Folder<span class="token punctuation">,</span> Drive<span class="token punctuation">;</span>
+<span class="token keyword">entity</span> Photo <span class="token keyword">in</span> Album<span class="token punctuation">;</span>
+<span class="token keyword">entity</span> Document <span class="token keyword">in</span> <span class="token punctuation">[</span>Folder<span class="token punctuation">,</span> Drive<span class="token punctuation">]</span><span class="token punctuation">;</span>
+<span class="token keyword">action</span> <span class="token string">"read"</span><span class="token punctuation">,</span> <span class="token string">"write"</span><span class="token punctuation">,</span> <span class="token string">"admin"</span><span class="token punctuation">;</span>
+<span class="token keyword">action</span> view <span class="token keyword">in</span> Action<span class="token punctuation">::</span><span class="token string">"read"</span><span class="token punctuation">;</span>
+<span class="token keyword">action</span> edit <span class="token keyword">in</span> <span class="token punctuation">[</span>Action<span class="token punctuation">::</span><span class="token string">"write"</span><span class="token punctuation">,</span> Action<span class="token punctuation">::</span><span class="token string">"admin"</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
+
+<span class="token comment">// enumerated entity types</span>
+<span class="token keyword">entity</span> Color <span class="token keyword">enum</span> <span class="token punctuation">[</span><span class="token string">"Red"</span><span class="token punctuation">,</span> <span class="token string">"Blue"</span><span class="token punctuation">,</span> <span class="token string">"Green"</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
+<span class="token keyword">entity</span> Status <span class="token keyword">enum</span> <span class="token punctuation">[</span><span class="token string">"active"</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
+
+<span class="token comment">// the '=' before a record shape is optional</span>
+<span class="token keyword">entity</span> WithEquals <span class="token operator">=</span> <span class="token punctuation">{</span> <span class="token property">a</span><span class="token punctuation">:</span> <span class="token builtin">Long</span> <span class="token punctuation">}</span><span class="token punctuation">;</span>
+<span class="token keyword">entity</span> WithoutEquals <span class="token punctuation">{</span> <span class="token property">a</span><span class="token punctuation">:</span> <span class="token builtin">Long</span> <span class="token punctuation">}</span><span class="token punctuation">;</span>
+
+<span class="token comment">// appliesTo may be omitted entirely, and may use bracketed or bare entity types</span>
+<span class="token keyword">action</span> a1<span class="token punctuation">;</span>
+<span class="token keyword">action</span> a2 <span class="token keyword">appliesTo</span> <span class="token punctuation">{</span> <span class="token property">principal</span><span class="token punctuation">:</span> <span class="token punctuation">[</span><span class="token entity-type"><span class="token namespace">Foo::Bar::Baz::</span>E</span><span class="token punctuation">]</span><span class="token punctuation">,</span> <span class="token property">resource</span><span class="token punctuation">:</span> Photo<span class="token punctuation">,</span> <span class="token property">context</span><span class="token punctuation">:</span> <span class="token punctuation">{</span><span class="token punctuation">}</span> <span class="token punctuation">}</span><span class="token punctuation">;</span>
+<span class="token keyword">action</span> a3 <span class="token keyword">appliesTo</span> <span class="token punctuation">{</span> <span class="token property">principal</span><span class="token punctuation">:</span> <span class="token punctuation">[</span>Photo<span class="token punctuation">]</span><span class="token punctuation">,</span> <span class="token property">resource</span><span class="token punctuation">:</span> <span class="token punctuation">[</span>Document<span class="token punctuation">]</span><span class="token punctuation">,</span> <span class="token punctuation">}</span><span class="token punctuation">;</span>
+<span class="token keyword">action</span> <span class="token string">"a b"</span><span class="token punctuation">,</span> <span class="token string">"a / b"</span> <span class="token keyword">in</span> <span class="token string">"a1"</span> <span class="token keyword">appliesTo</span> <span class="token punctuation">{</span>
+  <span class="token property">principal</span><span class="token punctuation">:</span> <span class="token punctuation">[</span>Photo<span class="token punctuation">]</span><span class="token punctuation">,</span>
+  <span class="token property">resource</span><span class="token punctuation">:</span> <span class="token punctuation">[</span>Document<span class="token punctuation">]</span><span class="token punctuation">,</span>
+  <span class="token property">context</span><span class="token punctuation">:</span> <span class="token punctuation">{</span> <span class="token property">oldObject</span>?<span class="token punctuation">:</span> <span class="token builtin">String</span> <span class="token punctuation">}</span>
+<span class="token punctuation">}</span><span class="token punctuation">;</span>

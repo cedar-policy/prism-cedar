@@ -7,8 +7,21 @@
 Web browser `<script src=>` usage example from `test/static/index.html` (adjust the script `src` paths as required):
 
 ```html
-    <script src="prism.js"></script>
-    <script src="prism-cedar.js"></script>
+<script src="prism.js"></script>
+<script src="prism-cedar.js"></script>
+```
+
+You can download source (`prism-cedar.js`) and/or minified build (`prism-cedar.min.js`) using `curl`:
+
+```shell
+curl -sSLO https://raw.githubusercontent.com/cedar-policy/prism-cedar/main/src/prism-cedar.js
+curl -sSLO https://raw.githubusercontent.com/cedar-policy/prism-cedar/main/dist/prism-cedar.min.js
+```
+
+You can also `npm install` but `--allow-git` is required on npm 12+ (or can go in `.npmrc` as `allow-git=root` instead).
+
+```shell
+npm install --allow-git=root git+https://github.com/cedar-policy/prism-cedar.git
 ```
 
 ## Development
@@ -28,13 +41,13 @@ The `npm run build` script uses [esbuild](https://esbuild.github.io/api/) to cre
 `npm run test` uses [vitest](https://vitest.dev) to syntax highlight `test/data/*.cedar` and `test/data/*.cedarschema` files and compares against a generated `.html`
 [File Snapshots](https://vitest.dev/guide/snapshot.html#file-snapshots) for each Cedar and Cedar schema file.
 
-View the static `test/static/index.html` in your browser which loads `dist/prism-cedar.min.js`.  The `test/static` folder includes a downloaded copy of PrismJS 1.30.0.
+View the static `test/static/index.html` in your browser which loads `dist/prism-cedar.min.js`. The `test/static` folder includes a downloaded copy of PrismJS 1.30.0.
 
 When new `test/data/*.cedar` or `test/data/*.cedarschema` files are created, `npm run testdata` will update the contents of each `index.html` file.
 
 ### Pull Request
 
-Pull requests require a [Developer Certificate of Origin (DCO)](https://probot.github.io/apps/dco/) to certify the right to submit the code they are contributing to the project.  Either add the `-s` or the `--signoff` flag to your commits or update your `.vscode/settings.json` with `git.alwaysSignOff`.
+Pull requests require a [Developer Certificate of Origin (DCO)](https://probot.github.io/apps/dco/) to certify the right to submit the code they are contributing to the project. Either add the `-s` or the `--signoff` flag to your commits or update your `.vscode/settings.json` with `git.alwaysSignOff`.
 
 ```json
 {

@@ -1,0 +1,47 @@
+<span class="token comment">// Type      := Path | SetType | RecType</span>
+<span class="token comment">// SetType   := 'Set' '&lt;' Type '>'</span>
+<span class="token comment">// PRIMTYPE  := 'Long' | 'String' | 'Bool'</span>
+<span class="token comment">// RESERVED  := 'Bool' | 'Boolean' | 'Entity' | 'Extension' | 'Long' | 'Record' | 'Set' | 'String'</span>
+<span class="token comment">// see https://docs.cedarpolicy.com/schema/human-readable-schema-grammar.html</span>
+<span class="token namespace-declaration"><span class="token keyword">namespace</span> <span class="token namespace">NS1</span></span> <span class="token punctuation">{</span>
+  <span class="token keyword">type</span> Primitives <span class="token operator">=</span> <span class="token punctuation">{</span>
+    <span class="token property">b</span><span class="token punctuation">:</span> <span class="token builtin">Bool</span><span class="token punctuation">,</span>
+    <span class="token property">l</span><span class="token punctuation">:</span> <span class="token builtin">Long</span><span class="token punctuation">,</span>
+    <span class="token property">s</span><span class="token punctuation">:</span> <span class="token builtin">String</span><span class="token punctuation">,</span>
+  <span class="token punctuation">}</span><span class="token punctuation">;</span>
+  <span class="token keyword">type</span> Sets <span class="token operator">=</span> <span class="token punctuation">{</span>
+    <span class="token property">bs</span><span class="token punctuation">:</span> <span class="token builtin">Set</span><span class="token punctuation">&lt;</span><span class="token builtin">Bool</span><span class="token punctuation">></span><span class="token punctuation">,</span>
+    <span class="token property">ls</span><span class="token punctuation">:</span> <span class="token builtin">Set</span><span class="token punctuation">&lt;</span><span class="token builtin">Long</span><span class="token punctuation">></span><span class="token punctuation">,</span>
+    <span class="token property">nested</span><span class="token punctuation">:</span> <span class="token builtin">Set</span><span class="token punctuation">&lt;</span><span class="token builtin">Set</span><span class="token punctuation">&lt;</span><span class="token builtin">String</span><span class="token punctuation">></span><span class="token punctuation">></span><span class="token punctuation">,</span>
+  <span class="token punctuation">}</span><span class="token punctuation">;</span>
+  <span class="token comment">// the extension types</span>
+  <span class="token keyword">type</span> Functions <span class="token operator">=</span> <span class="token punctuation">{</span>
+    <span class="token property">da</span><span class="token punctuation">:</span> <span class="token builtin">datetime</span><span class="token punctuation">,</span>
+    <span class="token property">de</span><span class="token punctuation">:</span> <span class="token builtin">decimal</span><span class="token punctuation">,</span>
+    <span class="token property">du</span><span class="token punctuation">:</span> <span class="token builtin">duration</span><span class="token punctuation">,</span>
+    <span class="token property">ip</span><span class="token punctuation">:</span> <span class="token builtin">ipaddr</span><span class="token punctuation">,</span>
+  <span class="token punctuation">}</span><span class="token punctuation">;</span>
+  <span class="token comment">// a common type reference is not a built-in type</span>
+  <span class="token keyword">type</span> Both <span class="token operator">=</span> <span class="token punctuation">{</span>
+    <span class="token property">p</span><span class="token punctuation">:</span> Primitives<span class="token punctuation">,</span>
+    <span class="token property">f</span><span class="token punctuation">:</span> Functions<span class="token punctuation">,</span>
+  <span class="token punctuation">}</span><span class="token punctuation">;</span>
+  <span class="token keyword">type</span> Alias <span class="token operator">=</span> <span class="token builtin">Long</span><span class="token punctuation">;</span>
+  <span class="token keyword">type</span> Listy <span class="token operator">=</span> <span class="token builtin">Set</span><span class="token punctuation">&lt;</span>Primitives<span class="token punctuation">></span><span class="token punctuation">;</span>
+
+  <span class="token keyword">entity</span> E <span class="token punctuation">{</span>
+    <span class="token property">p</span><span class="token punctuation">:</span> Primitives<span class="token punctuation">,</span>
+    <span class="token property">q</span><span class="token punctuation">:</span> <span class="token entity-type"><span class="token namespace">NS1::</span>Primitives</span><span class="token punctuation">,</span>
+  <span class="token punctuation">}</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+
+<span class="token comment">// a declared name that collides with a reserved type name is still a name</span>
+<span class="token namespace-declaration"><span class="token keyword">namespace</span> <span class="token namespace">Shadow</span></span> <span class="token punctuation">{</span>
+  <span class="token keyword">entity</span> String <span class="token punctuation">{</span>
+    <span class="token property">groups</span><span class="token punctuation">:</span> <span class="token builtin">Set</span><span class="token punctuation">&lt;</span><span class="token entity-type"><span class="token namespace">__cedar::</span>String</span><span class="token punctuation">></span><span class="token punctuation">,</span>
+  <span class="token punctuation">}</span><span class="token punctuation">;</span>
+  <span class="token keyword">type</span> ipaddr <span class="token operator">=</span> <span class="token punctuation">{</span>
+    <span class="token property">repr</span><span class="token punctuation">:</span> <span class="token builtin">String</span><span class="token punctuation">,</span>
+    <span class="token property">isV4</span><span class="token punctuation">:</span> <span class="token builtin">Bool</span><span class="token punctuation">,</span>
+  <span class="token punctuation">}</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>

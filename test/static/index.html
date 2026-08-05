@@ -2,7 +2,7 @@
 <html lang="en">
   <head>
     <title>prism-cedar</title>
-    <link href="prism.css" rel="stylesheet" />
+    <link id="theme" href="prism.css" rel="stylesheet" />
   </head>
   <body>
     <!-- 
@@ -14,10 +14,59 @@
 
     <h1>static script src test page for prism-cedar</h1>
 
+    <fieldset>
+      <legend>Theme</legend>
+      <label
+        ><input
+          type="radio"
+          name="theme"
+          value="prism.css"
+          checked
+          onchange="document.getElementById('theme').href = this.value"
+        />
+        default</label
+      >
+      <label
+        ><input
+          type="radio"
+          name="theme"
+          value="prism-dark.css"
+          onchange="document.getElementById('theme').href = this.value"
+        />
+        dark</label
+      >
+    </fieldset>
+
     <!-- prettier-ignore-start -->
     <!-- BEGIN generated code -->
 
     <h2>Cedar</h2>
+
+    <h3>annotations.cedar</h3>
+    <pre><code class="language-cedar">
+// Annotation ::= '@' ANYIDENT ( '('STR')' )?
+// see https://docs.cedarpolicy.com/policies/syntax-grammar.html#grammar-annotation
+@id("policy0")
+@advice("contact support")
+permit (principal, action, resource);
+
+// the value is optional
+@doNotOptimize
+permit (principal, action, resource);
+
+// ANYIDENT, not IDENT, so reserved words are legal annotation names
+@is("reserved")
+@if("reserved")
+@true("reserved")
+@__cedar("reserved")
+forbid (principal, action, resource);
+
+// an annotation value is a string, and a '@' inside a string is not an annotation
+@doc("see @id and https://docs.cedarpolicy.com/")
+permit (principal, action, resource)
+when { context.note == "@notAnAnnotation" };
+
+</code></pre>
 
     <h3>contains.cedar</h3>
     <pre><code class="language-cedar">
@@ -37,11 +86,11 @@ when
     <pre><code class="language-cedar">
 // datetime(), offset, durationSince, toDate, toTime
 // duration(), toMilliseconds, toSeconds, toMinutes, toHours, toDays
-// see https://github.com/strongdm/cedar-rfcs/blob/datetime-rfc/text/0080-datetime-extension.md
+// see https://github.com/cedar-policy/rfcs/blob/main/text/0080-datetime-extension.md
 permit (principal, action, resource)
 when
 {
-  datetime("2024-08-21T") == datetime("2024-08-21T00:00:00.000Z") &&
+  datetime("2024-08-21T") == datetime("2024-08-21T00:00:00.000Z") && duration("1d2h3m4s5ms").toSeconds() == 0 &&
   datetime("2024-08-21T") == datetime("2024-08-21T23:59:59.999Z").toDate() && 
   datetime("2024-08-21T").offset(duration("1d")) == datetime("2024-08-22T") &&
   datetime("2024-08-21T").toTime() == datetime("2024-08-21T").durationSince(datetime("2024-08-21T").toDate())
@@ -50,10 +99,10 @@ when
 permit (principal, action, resource)
 when
 {
-  duration("1d").toDays() == duration("1d").toHours() / 24 &&
-  duration("1h").toHours() == duration("1h").toMinutes() / 60 &&
-  duration("1m").toMinutes() == duration("1m").toSeconds() / 60 &&
-  duration("1s").toSeconds() == duration("1s").toMilliseconds() / 1000 &&
+  duration("1d").toDays() * 24 == duration("1d").toHours() &&
+  duration("1h").toHours() * 60 == duration("1h").toMinutes() &&
+  duration("1m").toMinutes() * 60 == duration("1m").toSeconds() &&
+  duration("1s").toSeconds() * 1000 == duration("1s").toMilliseconds() &&
   duration("1ms").toMilliseconds() == 1
 };
 </code></pre>
@@ -70,6 +119,36 @@ when
   (decimal("1.24").greaterThan(decimal("1.23")) &&
    decimal("1.24").greaterThanOrEqual(decimal("1.23")))
 };
+</code></pre>
+
+    <h3>entities.cedar</h3>
+    <pre><code class="language-cedar">
+// Entity ::= Path '::' STR
+// Path   ::= IDENT {'::' IDENT}
+// An entity literal always ends in a string; a bare Path is a type or an ExtFun.
+permit (principal, action, resource)
+when { principal == User::"alice" }
+when { principal == ExampleCo::User::"alice" }
+when { resource in A::B::C::Folder::"shared" }
+when { action == Action::"view" };
+
+// a Path in `is` position is a type, not an entity literal
+permit (
+  principal is ExampleCo::User,
+  action in [Action::"view", Action::"edit"],
+  resource is Photo
+);
+
+// comments are recognized even directly after a path separator
+permit (principal, action, resource)
+when { Namespace::User::"alice" == principal };// no space before this comment
+
+// poorly formed: `__cedar` is reserved everywhere in a policy, and no qualified
+// ExtFun call is valid, so neither `__cedar` nor `decimal` here forms a Path --
+// this checks that the leading segment is not scoped as an entity type
+permit (principal, action, resource)
+when { __cedar::decimal("1.0").lessThan(decimal("2.0")) };
+
 </code></pre>
 
     <h3>forbid.cedar</h3>
@@ -118,6 +197,8 @@ when
 permit (principal, action, resource)
 when { resource.ip == ip("127.0.0.1") }
 when { resource.decimal == decimal("0.1234") }
+when { resource.datetime == datetime("2024-10-15T11:35:00Z") }
+when { resource.duration == duration("1d12h") }
 when { resource.if.in.has.then.else.like.is.true.false }
 when { resource.principal.resource.action.context }
 when { resource.permit.forbid.when.unless };
@@ -172,6 +253,71 @@ unless
 };
 </code></pre>
 
+    <h3>methods.cedar</h3>
+    <pre><code class="language-cedar">
+// Access ::= '.' IDENT ['(' [ExprList] ')'] | '[' STR ']'
+// ExtFun ::= [Path '::'] IDENT
+// A method name is only a method after a receiver dot.
+permit (principal, action, resource)
+when { context.tags.contains("a") }
+when { context.tags.containsAll(["a", "b"]) }
+when { context.tags.containsAny(["a", "b"]) }
+when { context.tags.isEmpty() }
+when { resource.hasTag("write") }
+when { resource.getTag("write") == "yes" };
+
+// the same names used as attributes are not method calls
+permit (principal, action, resource)
+when { context.contains == 1 }
+when { context.isEmpty == 2 }
+when { context.offset == 3 }
+when { context.toDays == 4 };
+
+// a bare call is an ExtFun call, not a method call
+permit (principal, action, resource)
+when { ip("127.0.0.1").isInRange(ip("127.0.0.0/8")) }
+when { decimal("1.0").lessThan(decimal("2.0")) }
+when { datetime("2024-10-15").offset(duration("1d")) > datetime("2024-10-15") }
+when { duration("1d").toHours() == 24 };
+
+// index access uses a string key
+permit (principal, action, resource)
+when { context["owner info"].name == "Alice" };
+
+</code></pre>
+
+    <h3>numbers.cedar</h3>
+    <pre><code class="language-cedar">
+// INT ::= '-'? ['0'-'9']+
+// see https://docs.cedarpolicy.com/policies/syntax-grammar.html#grammar-int
+permit (principal, action, resource)
+when { context.zero == 0 }
+when { context.n == 42 }
+when { context.max == 9223372036854775807 }
+// leading zeros are a single INT per the grammar
+when { context.padded == 007 }
+// the sign is an operator, so subtraction keeps its operator
+when { context.a - 1 == 0 }
+when { context.b == -42 }
+when { 5 - (-3) == 8 };
+
+// digits inside an identifier are not numbers
+permit (principal, action, resource)
+when { context.i18n == 1 }
+when { context.a1 == 1 }
+when { context.utf8 == "yes" }
+when { principal is k8s::User }
+// nor are digits inside a path segment
+when { principal == V2::User::"alice" }
+when { resource in A1::B2::C3::Folder::"shared" }
+when { principal == _2::User::"bob" };
+
+// poorly formed: Cedar has no digit separators, so 1_000 is not an INT
+permit (principal, action, resource)
+when { context.budget == 1_000 };
+
+</code></pre>
+
     <h3>numeronym.cedar</h3>
     <pre><code class="language-cedar">
 // inspired by https://www.cedarpolicy.com/blog/cedar-for-kubernetes
@@ -182,6 +328,40 @@ forbid (
 ) when {
     principal in k8s::Group::"block-list"
 };
+</code></pre>
+
+    <h3>operators.cedar</h3>
+    <pre><code class="language-cedar">
+// RELOP ::= '&lt;' | '&lt;=' | '>=' | '>' | '!=' | '==' | 'in'
+// Unary ::= ['!' | '-']x4 Member
+// see https://docs.cedarpolicy.com/policies/syntax-operators.html
+permit (principal, action, resource)
+when { context.a == 1 && context.b != 2 }
+when { context.c &lt; 3 || context.d &lt;= 4 }
+when { context.e > 5 && context.f >= 6 }
+when { context.g + 1 - 2 * 3 == 0 }
+when { !context.flag }
+when { !(principal in Group::"family") }
+when { !!context.flag };
+
+// operators are scoped with or without surrounding whitespace
+permit (principal, action, resource)
+when { true&&false||true }
+when { context.a==1 }
+when { context.a!=1 }
+when { context.a+1>2 }
+when { context.a-1&lt;=2 }
+when { context.a*2>=4 };
+
+// the word operators
+permit (principal, action, resource)
+when { principal has jobLevel }
+when { principal has "owner info" }
+when { resource.name like "s3:*" }
+when { resource is Photo }
+when { principal in Group::"friends" }
+when { if context.a == 1 then true else false };
+
 </code></pre>
 
     <h3>quotes.cedar</h3>
@@ -216,6 +396,130 @@ unless {
     <hr />
 
     <h2>Cedar schema</h2>
+
+    <h3>annotated.cedarschema</h3>
+    <pre><code class="language-cedarschema">
+// Annotation := '@' IDENT '(' STR ')'
+// see https://docs.cedarpolicy.com/schema/human-readable-schema-grammar.html
+@doc("this is the namespace")
+namespace TinyTodo {
+  @doc("a common type representing a task")
+  type Task = {
+    @doc("task id")
+    "id": Long,
+    "name": String,
+  };
+
+  @doc("an entity type representing a list")
+  @docComment("any entity type is a child of type `Application`")
+  entity List in [Application] = {
+    @doc("editors of a list")
+    "editors": Team,
+    "name": String,
+  };
+
+  entity Application, Team;
+
+  @doc("actions that a user can operate on a list")
+  action DeleteList, GetList appliesTo {
+    principal: [Team],
+    resource: [List]
+  };
+}
+
+// the value is optional, and a '@' inside a string is not an annotation
+@internal
+entity Marker = {
+  note: String
+};
+
+</code></pre>
+
+    <h3>attributes.cedarschema</h3>
+    <pre><code class="language-cedarschema">
+// AttrDecls := Annotations Name ['?'] ':' Type [',' | ',' AttrDecls]
+// Name      := IDENT | STR
+// see https://docs.cedarpolicy.com/schema/human-readable-schema-grammar.html
+namespace NS {
+  // a quoted attribute name is a Name, not a string value
+  type Quoted = {
+    "id": Long,
+    "name": String,
+    "owner info": String,
+  };
+
+  // optional attributes
+  entity Resource {
+    metadata?: String,
+    required: Long,
+    "quoted optional"?: Bool
+  };
+
+  // words that are keywords elsewhere are legal attribute names
+  type Names = {
+    "type": __cedar::String,
+    namespace: String,
+    entity: String,
+    action: String,
+    enum: Long,
+    tags: Bool,
+    Set: Long,
+    appliesTo: Bool,
+    // `in` is a reserved identifier, so it is only legal quoted
+    "in": String
+  };
+
+  // an ordinary string containing a colon is still a string
+  @doc("id: the task id")
+  entity Doc = {
+    url: String
+  };
+}
+
+</code></pre>
+
+    <h3>declarations.cedarschema</h3>
+    <pre><code class="language-cedarschema">
+// Namespace := (Annotations 'namespace' Path '{' {Decl} '}') | Decl
+// Entity    := ... 'entity' Idents ['in' EntOrTyps] [['='] RecType] ['tags' Type] ';'
+//            | ... 'entity' Idents 'enum' '[' STR+ ']' ';'
+// see https://docs.cedarpolicy.com/schema/human-readable-schema-grammar.html
+
+// a namespace name is a Path, not a single IDENT
+namespace Foo::Bar::Baz {
+  entity E;
+}
+
+// declarations are not line oriented
+namespace M { entity U; action x appliesTo { principal: U, resource: U }; }
+
+// 'in' takes a single EntType or a bracketed list
+entity Album, Folder, Drive;
+entity Photo in Album;
+entity Document in [Folder, Drive];
+action "read", "write", "admin";
+action view in Action::"read";
+action edit in [Action::"write", Action::"admin"];
+
+// enumerated entity types
+entity Color enum ["Red", "Blue", "Green"];
+entity Status enum ["active"];
+
+// the '=' before a record shape is optional
+entity WithEquals = { a: Long };
+entity WithoutEquals { a: Long };
+
+// appliesTo may be omitted entirely, and may use bracketed or bare entity types
+action a1;
+action a2 appliesTo { principal: [Foo::Bar::Baz::E], resource: Photo, context: {} };
+action a3 appliesTo { principal: [Photo], resource: [Document], };
+action "a b", "a / b" in "a1" appliesTo {
+  principal: [Photo],
+  resource: [Document],
+  context: { oldObject?: String }
+};
+
+</code></pre>
 
     <h3>keywords.cedarschema</h3>
     <pre><code class="language-cedarschema">
@@ -296,6 +600,8 @@ namespace k8s {
 
     <h3>tags.cedarschema</h3>
     <pre><code class="language-cedarschema">
+// https://github.com/cedar-policy/rfcs/blob/main/text/0082-entity-tags.md
+// Entity := ... 'entity' Idents ['in' EntOrTyps] [['='] RecType] ['tags' Type] ';'
 entity User = {
   jobLevel: Long,
 } tags Set&lt;String>;
@@ -307,6 +613,86 @@ action "writeDoc" appliesTo {
   resource: [Document],
   context: {}
 };
+
+// RecType is optional, so tags does not require a preceding '}'
+entity Plain tags String;
+entity Parented in [User] tags Set&lt;String>;
+entity BareParent in User tags Set&lt;Set&lt;String>>;
+entity Recordy tags { note: String };
+
+// an attribute or entity named tags is not the tags keyword
+entity Attr = {
+  tags: Bool
+};
+entity tags;
+type tags2 = Long;
+
+// nor is a declared name that happens to be followed by more declaration.
+// each uses a distinct name, since a name may only be declared once.
+entity tagsParented in Attr;
+entity tagsShaped = { a: Long };
+action tags appliesTo { principal: [Attr], resource: [Attr] };
+entity First, tagsLast;
+
+// a qualified type keeps its whole path, even when the last segment is a
+// reserved type name
+entity Qualified = {
+  a: __cedar::String,
+  b: Set&lt;__cedar::Long>
+};
+
+</code></pre>
+
+    <h3>types.cedarschema</h3>
+    <pre><code class="language-cedarschema">
+// Type      := Path | SetType | RecType
+// SetType   := 'Set' '&lt;' Type '>'
+// PRIMTYPE  := 'Long' | 'String' | 'Bool'
+// RESERVED  := 'Bool' | 'Boolean' | 'Entity' | 'Extension' | 'Long' | 'Record' | 'Set' | 'String'
+// see https://docs.cedarpolicy.com/schema/human-readable-schema-grammar.html
+namespace NS1 {
+  type Primitives = {
+    b: Bool,
+    l: Long,
+    s: String,
+  };
+  type Sets = {
+    bs: Set&lt;Bool>,
+    ls: Set&lt;Long>,
+    nested: Set&lt;Set&lt;String>>,
+  };
+  // the extension types
+  type Functions = {
+    da: datetime,
+    de: decimal,
+    du: duration,
+    ip: ipaddr,
+  };
+  // a common type reference is not a built-in type
+  type Both = {
+    p: Primitives,
+    f: Functions,
+  };
+  type Alias = Long;
+  type Listy = Set&lt;Primitives>;
+
+  entity E {
+    p: Primitives,
+    q: NS1::Primitives,
+  };
+}
+
+// a declared name that collides with a reserved type name is still a name
+namespace Shadow {
+  entity String {
+    groups: Set&lt;__cedar::String>,
+  };
+  type ipaddr = {
+    repr: String,
+    isV4: Bool,
+  };
+}
+
 </code></pre>
 
     <!-- END generated code -->

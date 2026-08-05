@@ -1,0 +1,21 @@
+<span class="token comment">// Annotation ::= '@' ANYIDENT ( '('STR')' )?</span>
+<span class="token comment">// see https://docs.cedarpolicy.com/policies/syntax-grammar.html#grammar-annotation</span>
+<span class="token annotation">@id</span><span class="token punctuation">(</span><span class="token string">"policy0"</span><span class="token punctuation">)</span>
+<span class="token annotation">@advice</span><span class="token punctuation">(</span><span class="token string">"contact support"</span><span class="token punctuation">)</span>
+<span class="token keyword">permit</span> <span class="token punctuation">(</span><span class="token variable">principal</span><span class="token punctuation">,</span> <span class="token variable">action</span><span class="token punctuation">,</span> <span class="token variable">resource</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+<span class="token comment">// the value is optional</span>
+<span class="token annotation">@doNotOptimize</span>
+<span class="token keyword">permit</span> <span class="token punctuation">(</span><span class="token variable">principal</span><span class="token punctuation">,</span> <span class="token variable">action</span><span class="token punctuation">,</span> <span class="token variable">resource</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+<span class="token comment">// ANYIDENT, not IDENT, so reserved words are legal annotation names</span>
+<span class="token annotation">@is</span><span class="token punctuation">(</span><span class="token string">"reserved"</span><span class="token punctuation">)</span>
+<span class="token annotation">@if</span><span class="token punctuation">(</span><span class="token string">"reserved"</span><span class="token punctuation">)</span>
+<span class="token annotation">@true</span><span class="token punctuation">(</span><span class="token string">"reserved"</span><span class="token punctuation">)</span>
+<span class="token annotation">@__cedar</span><span class="token punctuation">(</span><span class="token string">"reserved"</span><span class="token punctuation">)</span>
+<span class="token keyword">forbid</span> <span class="token punctuation">(</span><span class="token variable">principal</span><span class="token punctuation">,</span> <span class="token variable">action</span><span class="token punctuation">,</span> <span class="token variable">resource</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+<span class="token comment">// an annotation value is a string, and a '@' inside a string is not an annotation</span>
+<span class="token annotation">@doc</span><span class="token punctuation">(</span><span class="token string">"see @id and https://docs.cedarpolicy.com/"</span><span class="token punctuation">)</span>
+<span class="token keyword">permit</span> <span class="token punctuation">(</span><span class="token variable">principal</span><span class="token punctuation">,</span> <span class="token variable">action</span><span class="token punctuation">,</span> <span class="token variable">resource</span><span class="token punctuation">)</span>
+<span class="token keyword">when</span> <span class="token punctuation">{</span> <span class="token variable">context</span><span class="token punctuation">.</span>note <span class="token operator">==</span> <span class="token string">"@notAnAnnotation"</span> <span class="token punctuation">}</span><span class="token punctuation">;</span>

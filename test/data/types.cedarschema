@@ -1,0 +1,47 @@
+// Type      := Path | SetType | RecType
+// SetType   := 'Set' '<' Type '>'
+// PRIMTYPE  := 'Long' | 'String' | 'Bool'
+// RESERVED  := 'Bool' | 'Boolean' | 'Entity' | 'Extension' | 'Long' | 'Record' | 'Set' | 'String'
+// see https://docs.cedarpolicy.com/schema/human-readable-schema-grammar.html
+namespace NS1 {
+  type Primitives = {
+    b: Bool,
+    l: Long,
+    s: String,
+  };
+  type Sets = {
+    bs: Set<Bool>,
+    ls: Set<Long>,
+    nested: Set<Set<String>>,
+  };
+  // the extension types
+  type Functions = {
+    da: datetime,
+    de: decimal,
+    du: duration,
+    ip: ipaddr,
+  };
+  // a common type reference is not a built-in type
+  type Both = {
+    p: Primitives,
+    f: Functions,
+  };
+  type Alias = Long;
+  type Listy = Set<Primitives>;
+
+  entity E {
+    p: Primitives,
+    q: NS1::Primitives,
+  };
+}
+
+// a declared name that collides with a reserved type name is still a name
+namespace Shadow {
+  entity String {
+    groups: Set<__cedar::String>,
+  };
+  type ipaddr = {
+    repr: String,
+    isV4: Bool,
+  };
+}
