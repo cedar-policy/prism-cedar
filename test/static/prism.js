@@ -1,5 +1,5 @@
 /* PrismJS 1.30.0
-https://prismjs.com/download.html#themes=prism&languages=markup+css+clike+javascript */
+https://prismjs.com/download#themes=prism&languages=markup+css+clike+javascript */
 /// <reference lib="WebWorker"/>
 
 var _self = (typeof window !== 'undefined')
