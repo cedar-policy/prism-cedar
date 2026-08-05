@@ -1,14 +1,25 @@
 {
   "name": "prism-cedar",
-  "version": "0.5.0",
+  "version": "1.0.0",
   "description": "Prism support for Cedar policy and Cedar schema syntax",
   "author": "cedar-policy",
   "license": "Apache-2.0",
   "repository": {
-    "url": "https://github.com/cedar-policy/prism-cedar"
+    "type": "git",
+    "url": "https://github.com/cedar-policy/prism-cedar.git"
   },
+  "main": "dist/prism-cedar.min.js",
+  "types": "dist/prism-cedar.d.ts",
+  "exports": {
+    ".": {
+      "default": "./dist/prism-cedar.min.js"
+    }
+  },
+  "files": [
+    "dist"
+  ],
   "scripts": {
-    "build": "esbuild src/prism-cedar.js --outfile=dist/prism-cedar.min.js  --minify",
+    "build": "esbuild src/prism-cedar.js --outfile=dist/prism-cedar.min.js --minify && cp src/prism-cedar.js dist/prism-cedar.js",
     "test": "npm run prettier && vitest",
     "prettier": "prettier --check .",
     "testdata": "cd test && node update-html-files.js"
@@ -21,20 +32,11 @@
   ],
   "devDependencies": {
     "esbuild": "^0.28.1",
-    "prettier": "^3.9.4",
-    "vitest": "^4.1.9"
+    "prettier": "^3.9.6",
+    "vitest": "^4.1.10"
   },
   "allowScripts": {
     "esbuild@0.28.1": true,
     "fsevents@2.3.3": true
-  },
-  "files": [
-    "LICENSE",
-    "README.md",
-    "NOTICE",
-    "dist/prism-cedar.min.js",
-    "dist/prism-cedar.d.ts"
-  ],
-  "main": "dist/prism-cedar.min.js",
-  "types": "dist/prism-cedar.d.ts"
+  }
 }

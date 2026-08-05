@@ -3,6 +3,7 @@ node_modules
 dist
 *.min.*
 test/data/*
-test/static/prism.*
+test/static/prism*
 *.md
+!README.md
 .github

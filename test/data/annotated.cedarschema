@@ -1,0 +1,33 @@
+// Annotation := '@' IDENT '(' STR ')'
+// see https://docs.cedarpolicy.com/schema/human-readable-schema-grammar.html
+@doc("this is the namespace")
+namespace TinyTodo {
+  @doc("a common type representing a task")
+  type Task = {
+    @doc("task id")
+    "id": Long,
+    "name": String,
+  };
+
+  @doc("an entity type representing a list")
+  @docComment("any entity type is a child of type `Application`")
+  entity List in [Application] = {
+    @doc("editors of a list")
+    "editors": Team,
+    "name": String,
+  };
+
+  entity Application, Team;
+
+  @doc("actions that a user can operate on a list")
+  action DeleteList, GetList appliesTo {
+    principal: [Team],
+    resource: [List]
+  };
+}
+
+// the value is optional, and a '@' inside a string is not an annotation
+@internal
+entity Marker = {
+  note: String
+};

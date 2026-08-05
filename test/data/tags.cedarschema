@@ -1,3 +1,5 @@
+// https://github.com/cedar-policy/rfcs/blob/main/text/0082-entity-tags.md
+// Entity := ... 'entity' Idents ['in' EntOrTyps] [['='] RecType] ['tags' Type] ';'
 entity User = {
   jobLevel: Long,
 } tags Set<String>;
@@ -8,4 +10,31 @@ action "writeDoc" appliesTo {
   principal: [User],
   resource: [Document],
   context: {}
+};
+
+// RecType is optional, so tags does not require a preceding '}'
+entity Plain tags String;
+entity Parented in [User] tags Set<String>;
+entity BareParent in User tags Set<Set<String>>;
+entity Recordy tags { note: String };
+
+// an attribute or entity named tags is not the tags keyword
+entity Attr = {
+  tags: Bool
+};
+entity tags;
+type tags2 = Long;
+
+// nor is a declared name that happens to be followed by more declaration.
+// each uses a distinct name, since a name may only be declared once.
+entity tagsParented in Attr;
+entity tagsShaped = { a: Long };
+action tags appliesTo { principal: [Attr], resource: [Attr] };
+entity First, tagsLast;
+
+// a qualified type keeps its whole path, even when the last segment is a
+// reserved type name
+entity Qualified = {
+  a: __cedar::String,
+  b: Set<__cedar::Long>
 };

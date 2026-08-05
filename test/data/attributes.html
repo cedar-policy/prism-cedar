@@ -1,0 +1,38 @@
+<span class="token comment">// AttrDecls := Annotations Name ['?'] ':' Type [',' | ',' AttrDecls]</span>
+<span class="token comment">// Name      := IDENT | STR</span>
+<span class="token comment">// see https://docs.cedarpolicy.com/schema/human-readable-schema-grammar.html</span>
+<span class="token namespace-declaration"><span class="token keyword">namespace</span> <span class="token namespace">NS</span></span> <span class="token punctuation">{</span>
+  <span class="token comment">// a quoted attribute name is a Name, not a string value</span>
+  <span class="token keyword">type</span> Quoted <span class="token operator">=</span> <span class="token punctuation">{</span>
+    <span class="token string-property property">"id"</span><span class="token punctuation">:</span> <span class="token builtin">Long</span><span class="token punctuation">,</span>
+    <span class="token string-property property">"name"</span><span class="token punctuation">:</span> <span class="token builtin">String</span><span class="token punctuation">,</span>
+    <span class="token string-property property">"owner info"</span><span class="token punctuation">:</span> <span class="token builtin">String</span><span class="token punctuation">,</span>
+  <span class="token punctuation">}</span><span class="token punctuation">;</span>
+
+  <span class="token comment">// optional attributes</span>
+  <span class="token keyword">entity</span> Resource <span class="token punctuation">{</span>
+    <span class="token property">metadata</span>?<span class="token punctuation">:</span> <span class="token builtin">String</span><span class="token punctuation">,</span>
+    <span class="token property">required</span><span class="token punctuation">:</span> <span class="token builtin">Long</span><span class="token punctuation">,</span>
+    <span class="token string-property property">"quoted optional"</span>?<span class="token punctuation">:</span> <span class="token builtin">Bool</span>
+  <span class="token punctuation">}</span><span class="token punctuation">;</span>
+
+  <span class="token comment">// words that are keywords elsewhere are legal attribute names</span>
+  <span class="token keyword">type</span> Names <span class="token operator">=</span> <span class="token punctuation">{</span>
+    <span class="token string-property property">"type"</span><span class="token punctuation">:</span> <span class="token entity-type"><span class="token namespace">__cedar::</span>String</span><span class="token punctuation">,</span>
+    <span class="token property">namespace</span><span class="token punctuation">:</span> <span class="token builtin">String</span><span class="token punctuation">,</span>
+    <span class="token property">entity</span><span class="token punctuation">:</span> <span class="token builtin">String</span><span class="token punctuation">,</span>
+    <span class="token property">action</span><span class="token punctuation">:</span> <span class="token builtin">String</span><span class="token punctuation">,</span>
+    <span class="token property">enum</span><span class="token punctuation">:</span> <span class="token builtin">Long</span><span class="token punctuation">,</span>
+    <span class="token property">tags</span><span class="token punctuation">:</span> <span class="token builtin">Bool</span><span class="token punctuation">,</span>
+    <span class="token property">Set</span><span class="token punctuation">:</span> <span class="token builtin">Long</span><span class="token punctuation">,</span>
+    <span class="token property">appliesTo</span><span class="token punctuation">:</span> <span class="token builtin">Bool</span><span class="token punctuation">,</span>
+    <span class="token comment">// `in` is a reserved identifier, so it is only legal quoted</span>
+    <span class="token string-property property">"in"</span><span class="token punctuation">:</span> <span class="token builtin">String</span>
+  <span class="token punctuation">}</span><span class="token punctuation">;</span>
+
+  <span class="token comment">// an ordinary string containing a colon is still a string</span>
+  <span class="token annotation">@doc</span><span class="token punctuation">(</span><span class="token string">"id: the task id"</span><span class="token punctuation">)</span>
+  <span class="token keyword">entity</span> Doc <span class="token operator">=</span> <span class="token punctuation">{</span>
+    <span class="token property">url</span><span class="token punctuation">:</span> <span class="token builtin">String</span>
+  <span class="token punctuation">}</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>

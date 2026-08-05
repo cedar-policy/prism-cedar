@@ -1,0 +1,38 @@
+// Namespace := (Annotations 'namespace' Path '{' {Decl} '}') | Decl
+// Entity    := ... 'entity' Idents ['in' EntOrTyps] [['='] RecType] ['tags' Type] ';'
+//            | ... 'entity' Idents 'enum' '[' STR+ ']' ';'
+// see https://docs.cedarpolicy.com/schema/human-readable-schema-grammar.html
+
+// a namespace name is a Path, not a single IDENT
+namespace Foo::Bar::Baz {
+  entity E;
+}
+
+// declarations are not line oriented
+namespace M { entity U; action x appliesTo { principal: U, resource: U }; }
+
+// 'in' takes a single EntType or a bracketed list
+entity Album, Folder, Drive;
+entity Photo in Album;
+entity Document in [Folder, Drive];
+action "read", "write", "admin";
+action view in Action::"read";
+action edit in [Action::"write", Action::"admin"];
+
+// enumerated entity types
+entity Color enum ["Red", "Blue", "Green"];
+entity Status enum ["active"];
+
+// the '=' before a record shape is optional
+entity WithEquals = { a: Long };
+entity WithoutEquals { a: Long };
+
+// appliesTo may be omitted entirely, and may use bracketed or bare entity types
+action a1;
+action a2 appliesTo { principal: [Foo::Bar::Baz::E], resource: Photo, context: {} };
+action a3 appliesTo { principal: [Photo], resource: [Document], };
+action "a b", "a / b" in "a1" appliesTo {
+  principal: [Photo],
+  resource: [Document],
+  context: { oldObject?: String }
+};

@@ -1,11 +1,40 @@
+<span class="token comment">// https://github.com/cedar-policy/rfcs/blob/main/text/0082-entity-tags.md</span>
+<span class="token comment">// Entity := ... 'entity' Idents ['in' EntOrTyps] [['='] RecType] ['tags' Type] ';'</span>
 <span class="token keyword">entity</span> User <span class="token operator">=</span> <span class="token punctuation">{</span>
-  <span class="token property">jobLevel</span>: Long<span class="token punctuation">,</span>
-<span class="token punctuation">}</span> <span class="token keyword">tags</span> Set&lt;String><span class="token punctuation">;</span>
+  <span class="token property">jobLevel</span><span class="token punctuation">:</span> <span class="token builtin">Long</span><span class="token punctuation">,</span>
+<span class="token punctuation">}</span> <span class="token keyword">tags</span> <span class="token builtin">Set</span><span class="token punctuation">&lt;</span><span class="token builtin">String</span><span class="token punctuation">></span><span class="token punctuation">;</span>
 <span class="token keyword">entity</span> Document <span class="token operator">=</span> <span class="token punctuation">{</span>
-  <span class="token property">owner</span>: User<span class="token punctuation">,</span>
-<span class="token punctuation">}</span> <span class="token keyword">tags</span> Set&lt;String><span class="token punctuation">;</span>
+  <span class="token property">owner</span><span class="token punctuation">:</span> User<span class="token punctuation">,</span>
+<span class="token punctuation">}</span> <span class="token keyword">tags</span> <span class="token builtin">Set</span><span class="token punctuation">&lt;</span><span class="token builtin">String</span><span class="token punctuation">></span><span class="token punctuation">;</span>
 <span class="token keyword">action</span> <span class="token string">"writeDoc"</span> <span class="token keyword">appliesTo</span> <span class="token punctuation">{</span>
-  <span class="token property">principal</span>: <span class="token punctuation">[</span>User<span class="token punctuation">]</span><span class="token punctuation">,</span>
-  <span class="token property">resource</span>: <span class="token punctuation">[</span>Document<span class="token punctuation">]</span><span class="token punctuation">,</span>
-  <span class="token property">context</span>: <span class="token punctuation">{</span><span class="token punctuation">}</span>
+  <span class="token property">principal</span><span class="token punctuation">:</span> <span class="token punctuation">[</span>User<span class="token punctuation">]</span><span class="token punctuation">,</span>
+  <span class="token property">resource</span><span class="token punctuation">:</span> <span class="token punctuation">[</span>Document<span class="token punctuation">]</span><span class="token punctuation">,</span>
+  <span class="token property">context</span><span class="token punctuation">:</span> <span class="token punctuation">{</span><span class="token punctuation">}</span>
+<span class="token punctuation">}</span><span class="token punctuation">;</span>
+
+<span class="token comment">// RecType is optional, so tags does not require a preceding '}'</span>
+<span class="token keyword">entity</span> Plain <span class="token keyword">tags</span> <span class="token builtin">String</span><span class="token punctuation">;</span>
+<span class="token keyword">entity</span> Parented <span class="token keyword">in</span> <span class="token punctuation">[</span>User<span class="token punctuation">]</span> <span class="token keyword">tags</span> <span class="token builtin">Set</span><span class="token punctuation">&lt;</span><span class="token builtin">String</span><span class="token punctuation">></span><span class="token punctuation">;</span>
+<span class="token keyword">entity</span> BareParent <span class="token keyword">in</span> User <span class="token keyword">tags</span> <span class="token builtin">Set</span><span class="token punctuation">&lt;</span><span class="token builtin">Set</span><span class="token punctuation">&lt;</span><span class="token builtin">String</span><span class="token punctuation">></span><span class="token punctuation">></span><span class="token punctuation">;</span>
+<span class="token keyword">entity</span> Recordy <span class="token keyword">tags</span> <span class="token punctuation">{</span> <span class="token property">note</span><span class="token punctuation">:</span> <span class="token builtin">String</span> <span class="token punctuation">}</span><span class="token punctuation">;</span>
+
+<span class="token comment">// an attribute or entity named tags is not the tags keyword</span>
+<span class="token keyword">entity</span> Attr <span class="token operator">=</span> <span class="token punctuation">{</span>
+  <span class="token property">tags</span><span class="token punctuation">:</span> <span class="token builtin">Bool</span>
+<span class="token punctuation">}</span><span class="token punctuation">;</span>
+<span class="token keyword">entity</span> tags<span class="token punctuation">;</span>
+<span class="token keyword">type</span> tags2 <span class="token operator">=</span> <span class="token builtin">Long</span><span class="token punctuation">;</span>
+
+<span class="token comment">// nor is a declared name that happens to be followed by more declaration.</span>
+<span class="token comment">// each uses a distinct name, since a name may only be declared once.</span>
+<span class="token keyword">entity</span> tagsParented <span class="token keyword">in</span> Attr<span class="token punctuation">;</span>
+<span class="token keyword">entity</span> tagsShaped <span class="token operator">=</span> <span class="token punctuation">{</span> <span class="token property">a</span><span class="token punctuation">:</span> <span class="token builtin">Long</span> <span class="token punctuation">}</span><span class="token punctuation">;</span>
+<span class="token keyword">action</span> tags <span class="token keyword">appliesTo</span> <span class="token punctuation">{</span> <span class="token property">principal</span><span class="token punctuation">:</span> <span class="token punctuation">[</span>Attr<span class="token punctuation">]</span><span class="token punctuation">,</span> <span class="token property">resource</span><span class="token punctuation">:</span> <span class="token punctuation">[</span>Attr<span class="token punctuation">]</span> <span class="token punctuation">}</span><span class="token punctuation">;</span>
+<span class="token keyword">entity</span> First<span class="token punctuation">,</span> tagsLast<span class="token punctuation">;</span>
+
+<span class="token comment">// a qualified type keeps its whole path, even when the last segment is a</span>
+<span class="token comment">// reserved type name</span>
+<span class="token keyword">entity</span> Qualified <span class="token operator">=</span> <span class="token punctuation">{</span>
+  <span class="token property">a</span><span class="token punctuation">:</span> <span class="token entity-type"><span class="token namespace">__cedar::</span>String</span><span class="token punctuation">,</span>
+  <span class="token property">b</span><span class="token punctuation">:</span> <span class="token builtin">Set</span><span class="token punctuation">&lt;</span><span class="token entity-type"><span class="token namespace">__cedar::</span>Long</span><span class="token punctuation">></span>
 <span class="token punctuation">}</span><span class="token punctuation">;</span>

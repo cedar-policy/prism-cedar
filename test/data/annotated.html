@@ -1,0 +1,33 @@
+<span class="token comment">// Annotation := '@' IDENT '(' STR ')'</span>
+<span class="token comment">// see https://docs.cedarpolicy.com/schema/human-readable-schema-grammar.html</span>
+<span class="token annotation">@doc</span><span class="token punctuation">(</span><span class="token string">"this is the namespace"</span><span class="token punctuation">)</span>
+<span class="token namespace-declaration"><span class="token keyword">namespace</span> <span class="token namespace">TinyTodo</span></span> <span class="token punctuation">{</span>
+  <span class="token annotation">@doc</span><span class="token punctuation">(</span><span class="token string">"a common type representing a task"</span><span class="token punctuation">)</span>
+  <span class="token keyword">type</span> Task <span class="token operator">=</span> <span class="token punctuation">{</span>
+    <span class="token annotation">@doc</span><span class="token punctuation">(</span><span class="token string">"task id"</span><span class="token punctuation">)</span>
+    <span class="token string-property property">"id"</span><span class="token punctuation">:</span> <span class="token builtin">Long</span><span class="token punctuation">,</span>
+    <span class="token string-property property">"name"</span><span class="token punctuation">:</span> <span class="token builtin">String</span><span class="token punctuation">,</span>
+  <span class="token punctuation">}</span><span class="token punctuation">;</span>
+
+  <span class="token annotation">@doc</span><span class="token punctuation">(</span><span class="token string">"an entity type representing a list"</span><span class="token punctuation">)</span>
+  <span class="token annotation">@docComment</span><span class="token punctuation">(</span><span class="token string">"any entity type is a child of type `Application`"</span><span class="token punctuation">)</span>
+  <span class="token keyword">entity</span> List <span class="token keyword">in</span> <span class="token punctuation">[</span>Application<span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token punctuation">{</span>
+    <span class="token annotation">@doc</span><span class="token punctuation">(</span><span class="token string">"editors of a list"</span><span class="token punctuation">)</span>
+    <span class="token string-property property">"editors"</span><span class="token punctuation">:</span> Team<span class="token punctuation">,</span>
+    <span class="token string-property property">"name"</span><span class="token punctuation">:</span> <span class="token builtin">String</span><span class="token punctuation">,</span>
+  <span class="token punctuation">}</span><span class="token punctuation">;</span>
+
+  <span class="token keyword">entity</span> Application<span class="token punctuation">,</span> Team<span class="token punctuation">;</span>
+
+  <span class="token annotation">@doc</span><span class="token punctuation">(</span><span class="token string">"actions that a user can operate on a list"</span><span class="token punctuation">)</span>
+  <span class="token keyword">action</span> DeleteList<span class="token punctuation">,</span> GetList <span class="token keyword">appliesTo</span> <span class="token punctuation">{</span>
+    <span class="token property">principal</span><span class="token punctuation">:</span> <span class="token punctuation">[</span>Team<span class="token punctuation">]</span><span class="token punctuation">,</span>
+    <span class="token property">resource</span><span class="token punctuation">:</span> <span class="token punctuation">[</span>List<span class="token punctuation">]</span>
+  <span class="token punctuation">}</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+
+<span class="token comment">// the value is optional, and a '@' inside a string is not an annotation</span>
+<span class="token annotation">@internal</span>
+<span class="token keyword">entity</span> Marker <span class="token operator">=</span> <span class="token punctuation">{</span>
+  <span class="token property">note</span><span class="token punctuation">:</span> <span class="token builtin">String</span>
+<span class="token punctuation">}</span><span class="token punctuation">;</span>

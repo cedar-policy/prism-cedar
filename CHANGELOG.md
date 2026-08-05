@@ -2,6 +2,10 @@
 
 All notable changes to this project will be documented in this file.
 
+## v1.0.0 2026-08-05
+
+- Grammar corrections from a cross-implementation comparison against the official grammars.
+
 ## v0.5.0 2025-02-21
 
 - Add Cedar language 4.2 support including experimental `datetime` extension
