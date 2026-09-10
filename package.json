@@ -33,7 +33,7 @@
   "devDependencies": {
     "esbuild": "^0.28.1",
     "prettier": "^3.9.6",
-    "vitest": "^4.1.10"
+    "vitest": "^4.1.11"
   },
   "allowScripts": {
     "esbuild@0.28.1": true,
